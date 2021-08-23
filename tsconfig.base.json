@@ -14,7 +14,9 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@effects/effects": ["libs/effects/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
