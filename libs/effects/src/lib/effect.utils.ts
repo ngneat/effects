@@ -4,7 +4,7 @@ import {effectsManager} from "./effects";
 import {Effect, EffectConfig} from "./effect.model";
 
 export function createEffect(
-  callback: (actions: Actions) => Observable<any>,
+  factory: (actions: Actions) => Observable<any>,
   config?: EffectConfig
 ): Effect {
   return {callback: callback(actions$), config}
