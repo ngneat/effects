@@ -38,7 +38,7 @@ class EffectsManager {
   }
 
   subscribeEffect(effect: Effect) {
-    const takeUntil$ = new Subject<void>()
+    const disposer = new Subject<void>()
     this.effects.set(effect, takeUntil$)
 
     effect.callback.pipe(
