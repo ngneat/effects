@@ -22,6 +22,6 @@ export function removeAllEffects() {
   effectsManager.removeAllEffects()
 }
 
-function coerceArray<T>(value: T): T extends any[] ? T : T[] {
+function coerceArray<T>(value: T | T[]): T[] {
   return Array.isArray(value) ? value : [value]
 }
