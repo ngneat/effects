@@ -50,7 +50,7 @@ class EffectsManager {
   }
 
   unsubscribeEffect(effect: Effect) {
-    const effectRef = this.effects.get(effect)
+    const disposer = this.effects.get(effect)
     effectRef?.next()
     this.effects.delete(effect)
   }
