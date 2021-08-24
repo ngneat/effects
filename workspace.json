@@ -22,13 +22,40 @@
         }
       }
     },
+    "sample-e2e": {
+      "root": "apps/sample-e2e",
+      "sourceRoot": "apps/sample-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/sample-e2e/cypress.json",
+            "tsConfig": "apps/sample-e2e/tsconfig.e2e.json",
+            "devServerTarget": "web:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "web:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/sample-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
     "web": {
       "projectType": "application",
       "root": "apps/web",
       "sourceRoot": "apps/web/src",
+      "prefix": "effects",
       "targets": {
         "build": {
-          "executor": "@nrwl/web:build",
+          "executor": "@angular-devkit/build-angular:browser",
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/web",
@@ -36,50 +63,69 @@
             "main": "apps/web/src/main.ts",
             "polyfills": "apps/web/src/polyfills.ts",
             "tsConfig": "apps/web/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
             "assets": ["apps/web/src/favicon.ico", "apps/web/src/assets"],
             "styles": ["apps/web/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "apps/web/src/environments/environment.ts",
                   "with": "apps/web/src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                }
-              ]
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
-          "executor": "@nrwl/web:dev-server",
-          "options": {
-            "buildTarget": "web:build"
-          },
+          "executor": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "web:build:production"
+              "browserTarget": "web:build:production"
+            },
+            "development": {
+              "browserTarget": "web:build:development"
             }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "executor": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "web:build"
           }
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/web/**/*.ts"]
+            "lintFilePatterns": [
+              "apps/web/src/**/*.ts",
+              "apps/web/src/**/*.html"
+            ]
           }
         },
         "test": {
@@ -91,38 +137,11 @@
           }
         }
       }
-    },
-    "web-e2e": {
-      "root": "apps/web-e2e",
-      "sourceRoot": "apps/web-e2e/src",
-      "projectType": "application",
-      "targets": {
-        "e2e": {
-          "executor": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/web-e2e/cypress.json",
-            "tsConfig": "apps/web-e2e/tsconfig.e2e.json",
-            "devServerTarget": "web:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "web:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["apps/web-e2e/**/*.{js,ts}"]
-          }
-        }
-      }
     }
   },
   "cli": {
     "defaultCollection": "@nrwl/web"
   },
-  "defaultProject": "web",
   "generators": {
     "@nrwl/web:application": {
       "style": "scss",
@@ -134,6 +153,20 @@
       "style": "scss",
       "linter": "eslint",
       "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:application": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {
+      "style": "scss"
     }
   }
 }
