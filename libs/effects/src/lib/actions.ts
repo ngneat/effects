@@ -15,4 +15,4 @@ export class Actions extends Subject<Action> {
   }
 }
 
-export const actions$ = new Actions()
+export const actions = new Actions()

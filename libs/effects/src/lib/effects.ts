@@ -1,7 +1,7 @@
 import {Subject, takeUntil} from "rxjs";
 import {Effect} from "./effect.model";
 import {Action} from "./action.model";
-import {actions$} from "./actions";
+import {actions} from "./actions";
 
 interface EffectsConfig {
   logger?: any; // todo type
@@ -37,37 +37,38 @@ class EffectsManager {
     this.destroyEffects$.next()
   }
 
-  subscribeEffect(effect: Effect) {
+  private subscribeEffect(effect: Effect) {
     const disposer = new Subject<void>()
-    this.effects.set(effect, takeUntil$)
+    this.effects.set(effect, disposer)
 
     effect.callback.pipe(
       takeUntil(this.destroyEffects$),
-      takeUntil(takeUntil$)
+      takeUntil(disposer)
     ).subscribe(actionOrSkip => {
       this.dispatchAction(effect, actionOrSkip)
     })
   }
 
-  unsubscribeEffect(effect: Effect) {
+  private unsubscribeEffect(effect: Effect) {
     const disposer = this.effects.get(effect)
-    effectRef?.next()
+    disposer?.next()
     this.effects.delete(effect)
   }
 
   private dispatchAction(effect: Effect, actionOrSkip: Action) {
-    if (effect.config?.dispatch || this.config.dispatchByDefault && this.checkAction(actionOrSkip)) {
-      actions$.dispatch(actionOrSkip)
+    if (effect.config?.dispatch || this.config.dispatchByDefault && checkAction(actionOrSkip)) {
+      actions.dispatch(actionOrSkip)
     }
-  }
-
-  private checkAction(action: Action | any): action is Action & Record<'type', any> {
-    if (action.type) {
-      return true;
-    }
-    throw new TypeError('Make sure to provide a valid action type or set the option {dispatch: false}');
   }
 }
+
+function checkAction(action: Action | any): action is Action & Record<'type', any> {
+  if (action.type) {
+    return true;
+  }
+  throw new TypeError('Make sure to provide a valid action type or set the option {dispatch: false}');
+}
+
 
 export let effectsManager: EffectsManager
 

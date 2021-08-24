@@ -1,8 +1,6 @@
 import {Component} from '@angular/core';
-import {actions$, createAction, createEffect, initEffects, registerEffects} from "@effects/effects";
-import {ofType} from "ts-action-operators";
+import {actions, createAction, createEffect, initEffects, ofType, props, registerEffects} from "@effects/effects";
 import {map, tap} from "rxjs";
-import {props} from "ts-action";
 
 @Component({
   selector: 'effects-root',
@@ -36,15 +34,15 @@ export class AppComponent {
     registerEffects([welcomeEffectSuccess])
 
 
-    actions$.dispatch(welcomeAction())
+    actions.dispatch(welcomeAction())
 
     // removeEffects([welcomeEffect])
 
-    actions$.dispatch(welcomeAction())
+    actions.dispatch(welcomeAction())
 
     // removeAllEffects()
 
-    actions$.dispatch(welcomeAction())
+    actions.dispatch(welcomeAction())
   }
 
 }
