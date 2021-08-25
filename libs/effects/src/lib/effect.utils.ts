@@ -7,7 +7,7 @@ export function createEffect(
   factory: (actions: Actions) => Observable<any>,
   config?: EffectConfig
 ): Effect {
-  return {callback: factory(actions), config}
+  return {source: factory(actions), config}
 }
 
 export function registerEffects(effects: Effect | Effect[]) {
