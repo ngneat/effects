@@ -1,5 +1,5 @@
 {
-  "npmScope": "effects",
+  "npmScope": "ngneat",
   "affected": {
     "defaultBase": "master"
   },
@@ -32,10 +32,6 @@
     },
     "web": {
       "tags": []
-    },
-    "web-e2e": {
-      "tags": [],
-      "implicitDependencies": ["web"]
     }
   }
 }
