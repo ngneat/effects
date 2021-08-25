@@ -44,8 +44,8 @@ class EffectsManager {
     effect.callback.pipe(
       takeUntil(this.destroyEffects$),
       takeUntil(disposer)
-    ).subscribe(actionOrSkip => {
-      this.dispatchAction(effect, actionOrSkip)
+    ).subscribe(maybeAction => {
+      this.dispatchAction(effect, maybeAction)
     })
   }
 
@@ -55,9 +55,9 @@ class EffectsManager {
     this.effects.delete(effect)
   }
 
-  private dispatchAction(effect: Effect, actionOrSkip: Action) {
-    if (effect.config?.dispatch || this.config.dispatchByDefault && checkAction(actionOrSkip)) {
-      actions.dispatch(actionOrSkip)
+  private dispatchAction(effect: Effect, maybeAction: Action) {
+    if (effect.config?.dispatch || this.config.dispatchByDefault && checkAction(maybeAction)) {
+      actions.dispatch(maybeAction)
     }
   }
 }
