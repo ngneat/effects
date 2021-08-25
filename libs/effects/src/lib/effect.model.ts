@@ -1,10 +1,10 @@
-import {Observable} from "rxjs";
+import { Observable } from 'rxjs';
 
 export interface EffectConfig {
-  dispatch: boolean
+  dispatch: boolean;
 }
 
 export interface Effect {
-  callback: Observable<any>;
-  config?: EffectConfig
+  source: Observable<any>;
+  config?: EffectConfig;
 }

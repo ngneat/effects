@@ -1,5 +1,5 @@
-import { Subject } from "rxjs";
-import {Action} from "./action.model";
+import { Subject } from 'rxjs';
+import { Action } from './action.model';
 
 export class Actions extends Subject<Action> {
   dispatch(value: Action): void {
@@ -15,4 +15,4 @@ export class Actions extends Subject<Action> {
   }
 }
 
-export const actions = new Actions()
+export const actions = new Actions();

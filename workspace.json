@@ -6,6 +6,16 @@
       "sourceRoot": "libs/effects/src",
       "projectType": "library",
       "targets": {
+        "build": {
+          "executor": "@nrwl/workspace:tsc",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/effects",
+            "main": "libs/effects/src/index.ts",
+            "tsConfig": "libs/effects/tsconfig.lib.json",
+            "assets": ["libs/effects/*.md"]
+          }
+        },
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
@@ -18,32 +28,6 @@
           "options": {
             "jestConfig": "libs/effects/jest.config.js",
             "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "sample-e2e": {
-      "root": "apps/sample-e2e",
-      "sourceRoot": "apps/sample-e2e/src",
-      "projectType": "application",
-      "targets": {
-        "e2e": {
-          "executor": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/sample-e2e/cypress.json",
-            "tsConfig": "apps/sample-e2e/tsconfig.e2e.json",
-            "devServerTarget": "web:serve:development"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "web:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["apps/sample-e2e/**/*.{js,ts}"]
           }
         }
       }

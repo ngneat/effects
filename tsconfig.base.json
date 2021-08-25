@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@effects/effects": ["libs/effects/src/index.ts"]
+      "@ngneat/effects": ["libs/effects/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
