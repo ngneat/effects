@@ -1,24 +1,23 @@
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { Effect, EffectConfig } from './effect.model';
-import { Action } from './action.model';
-import { Actions, actions } from './actions';
-import { coerceArray } from './utils';
+import { Effect, EffectConfig }           from './effect.model';
+import { Action }                         from './action.model';
+import { Actions, actions }               from './actions';
+import { coerceArray }                    from './utils';
+
 
 interface EffectsConfig {
-  logger?: any; // todo type
   dispatchByDefault?: boolean;
 }
 
-class EffectsManager {
-  private effects = new WeakMap<Effect, Subject<void>>();
+export class EffectsManager {
+  private effects         = new WeakMap<Effect, Subject<void>>();
   private destroyEffects$ = new Subject<void>();
   private config: EffectsConfig;
 
   constructor(config?: EffectsConfig) {
     this.config = {
-      // logger:
       dispatchByDefault: false,
-      ...config,
+      ...config
     };
   }
 
@@ -36,6 +35,7 @@ class EffectsManager {
 
   removeAllEffects() {
     this.destroyEffects$.next();
+    this.effects = new WeakMap<Effect, Subject<void>>();
   }
 
   private subscribeEffect(effect: Effect) {
