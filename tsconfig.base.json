@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@ngneat/effect-hooks": ["libs/hooks/src/index.ts"],
       "@ngneat/effects": ["libs/effects/src/index.ts"]
     }
   },

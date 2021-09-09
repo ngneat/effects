@@ -1,23 +1,23 @@
-import { Observable, Subject, takeUntil } from 'rxjs';
-import { Effect, EffectConfig }           from './effect.model';
-import { Action }                         from './action.model';
-import { Actions, actions }               from './actions';
-import { coerceArray }                    from './utils';
-
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { Effect, EffectConfig } from './effects.types';
+import { Action } from './actions.types';
+import { Actions, actions } from './actions';
+import { coerceArray } from './utils';
 
 interface EffectsConfig {
   dispatchByDefault?: boolean;
 }
 
 export class EffectsManager {
-  private effects         = new WeakMap<Effect, Subject<void>>();
+  private effects = new WeakMap<Effect, Subject<void>>();
   private destroyEffects$ = new Subject<void>();
   private config: EffectsConfig;
 
   constructor(config?: EffectsConfig) {
     this.config = {
       dispatchByDefault: false,
-      ...config
+      ...config,
     };
   }
 

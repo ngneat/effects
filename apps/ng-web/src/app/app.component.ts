@@ -1,11 +1,20 @@
-import { map, tap }                                                                                           from 'rxjs';
-import { Component }                                                                                          from '@angular/core';
-import { actions, createAction, createEffect, initEffects, ofType, props, registerEffects, removeAllEffects } from '@ngneat/effects';
+import { map, tap } from 'rxjs';
+import { Component } from '@angular/core';
+import {
+  actions,
+  createAction,
+  createEffect,
+  initEffects,
+  ofType,
+  props,
+  registerEffects,
+  removeAllEffects,
+} from '@ngneat/effects';
 
 @Component({
   selector: 'effects-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   title = 'web sample';
@@ -13,7 +22,7 @@ export class AppComponent {
   constructor() {
     initEffects();
 
-    const welcomeAction        = createAction('Welcome');
+    const welcomeAction = createAction('Welcome');
     const welcomeActionSuccess = createAction(
       'Welcome Success',
       props<{ test: string }>()
