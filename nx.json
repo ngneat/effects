@@ -30,7 +30,13 @@
     "effects": {
       "tags": []
     },
-    "web": {
+    "hooks": {
+      "tags": []
+    },
+    "ng-web": {
+      "tags": []
+    },
+    "react-web": {
       "tags": []
     }
   }
