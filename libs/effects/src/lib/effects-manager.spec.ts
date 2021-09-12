@@ -4,8 +4,8 @@ import { props }                                                                
 import { ofType }                                                                                      from 'ts-action-operators';
 
 const actionOne   = createAction('Action One');
-const actionTwo   = createAction('Action Two', props<{ value: 'Test value' }>());
-const actionThree = createAction('Action Three', props<{ value: 'Yes' }>());
+const actionTwo   = createAction('Action Two', props<{ value: string }>());
+const actionThree = createAction('Action Three', props<{ value: string }>());
 
 const effectOne    = createEffect(actions => actions.pipe(
     ofType(actionOne)
