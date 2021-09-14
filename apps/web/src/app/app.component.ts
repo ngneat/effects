@@ -1,6 +1,6 @@
-import { map, tap }                                                                                           from 'rxjs';
-import { Component }                                                                                                         from '@angular/core';
-import { actions, createAction, createEffect, initEffects, ofType, props, registerEffects, removeAllEffects, removeEffects } from '@ngneat/effects';
+import { map, tap }                                                                                        from 'rxjs';
+import { Component }                                                                                       from '@angular/core';
+import { actions, createAction, createEffect, initEffects, ofType, props, registerEffects, removeEffects, toPayload } from '@ngneat/effects';
 
 @Component({
   selector: 'effects-root',
@@ -32,6 +32,7 @@ export class AppComponent {
     const welcomeEffectSuccess = createEffect((actions) =>
       actions.pipe(
         ofType(welcomeActionSuccess),
+        toPayload(),
         tap((props) => console.log('Success', props))
       )
     );
@@ -41,13 +42,13 @@ export class AppComponent {
 
     actions.dispatch(welcomeAction());
 
-    removeEffects([welcomeEffect])
+    removeEffects([welcomeEffect]);
 
     actions.dispatch(welcomeAction());
 
     // removeAllEffects();
 
-    console.log("unsubscribed")
+    console.log('unsubscribed');
     actions.dispatch(welcomeAction());
   }
 }
