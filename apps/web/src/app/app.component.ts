@@ -1,6 +1,17 @@
-import { map, tap }                                                                                        from 'rxjs';
-import { Component }                                                                                       from '@angular/core';
-import { actions, createAction, createEffect, initEffects, ofType, props, registerEffects, removeEffects, toPayload } from '@ngneat/effects';
+import { map, tap }  from 'rxjs';
+import { Component } from '@angular/core';
+import {
+  actions,
+  actionsFactory,
+  createAction,
+  createEffect,
+  initEffects,
+  ofType,
+  props,
+  registerEffects,
+  removeAllEffects,
+  toPayload
+}                    from '@ngneat/effects';
 
 @Component({
   selector: 'effects-root',
@@ -12,6 +23,11 @@ export class AppComponent {
 
   constructor() {
     initEffects();
+
+    const todoActions = actionsFactory('todo');
+
+    const todoActionOne = todoActions.create('One');
+    const todoActionTwo = todoActions.create('Two', props<{ test: string }>());
 
     const welcomeAction        = createAction('Welcome');
     const welcomeActionSuccess = createAction(
@@ -37,18 +53,28 @@ export class AppComponent {
       )
     );
 
+    const todoEffectOne = createEffect(actions =>
+      actions.pipe(
+        ofType(todoActionOne),
+        tap(action => console.log('todo action on works -', action.type))
+      )
+    );
+
     registerEffects([welcomeEffect]);
     registerEffects([welcomeEffectSuccess]);
+    registerEffects([todoEffectOne]);
 
     actions.dispatch(welcomeAction());
 
-    removeEffects([welcomeEffect]);
+    // removeEffects([welcomeEffect])
 
     actions.dispatch(welcomeAction());
 
-    // removeAllEffects();
+    actions.dispatch(todoActionOne);
 
-    console.log('unsubscribed');
+    removeAllEffects();
+
     actions.dispatch(welcomeAction());
+
   }
 }
