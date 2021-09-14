@@ -37,6 +37,7 @@
     "@angular/platform-browser-dynamic": "12.2.5",
     "@angular/router": "12.2.5",
     "core-js": "3.6.5",
+    "lodash-es": "^4.17.21",
     "regenerator-runtime": "0.13.7",
     "rxjs": "7.3.0",
     "ts-action": "11.0.0",
@@ -77,4 +78,3 @@
     "typescript": "4.3.5"
   }
 }
-

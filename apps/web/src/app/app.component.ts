@@ -13,7 +13,7 @@ export class AppComponent {
   constructor() {
     initEffects();
 
-    const todoActions = actionsFactory('Todo');
+    const todoActions = actionsFactory('todo');
 
     const todoActionOne = todoActions.create('One');
     const todoActionTwo = todoActions.create('Two', props<{ test: string }>());
