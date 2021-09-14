@@ -6,13 +6,12 @@ const action = createAction('Action Two', props<{ value: string }>());
 
 describe('To payload operator', () => {
 
-  it('should extract the payload', (done) => {
+  it('should extract the payload', () => {
     actions.pipe(
       ofType(action),
       toPayload()
     ).subscribe(payload => {
       expect(payload).toStrictEqual({ value: 'test' });
-      done();
     });
 
     actions.dispatch(action({ value: 'test' }));
