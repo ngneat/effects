@@ -73,10 +73,13 @@ describe('Effects Manager', () => {
   // todo not sure how to properly test this
   it('should unsubscribe an effect', () => {
     effectsManager['subscribeEffect'](effectThree);
-    expect(effectThree.source.source['observers'].length).toBe(1);
+
+    const sub = effectsManager['effects'].get(effectThree);
+    const spy = jest.spyOn(sub, 'unsubscribe');
 
     effectsManager['unsubscribeEffect'](effectThree);
-    expect(effectThree.source.source['observers'].length).toBe(0);
+
+    expect(spy).toHaveBeenCalled()
   });
 
   it('should fail if wrong action format is provided', () => {
