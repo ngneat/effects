@@ -1,5 +1,5 @@
 import { createAction } from '../index';
-import { capitalize }   from 'lodash';
+import { capitalize }   from './utils';
 
 type CreateAction = typeof createAction
 
@@ -7,7 +7,7 @@ export function actionsFactory(storeName: string): { create: CreateAction } {
   return {
     create: ((type, config) => {
       const modifiedStoreName = capitalize(storeName);
-      return createAction(`[${modifiedStoreName}] ${type}`, config)
+      return createAction(`[${modifiedStoreName}] ${type}`, config);
     }) as CreateAction
   };
 }
