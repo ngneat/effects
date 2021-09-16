@@ -13,6 +13,7 @@
     "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
+    "noImplicitAny": false,
     "baseUrl": ".",
     "paths": {
       "@ngneat/effect-hooks": ["libs/hooks/src/index.ts"],

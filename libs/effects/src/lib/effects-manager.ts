@@ -1,23 +1,22 @@
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { Effect, EffectConfig } from './effects.types';
-import { Action } from './actions.types';
-import { Actions, actions } from './actions';
-import { coerceArray } from './utils';
+import { Observable, Subject, Subscription, takeUntil } from 'rxjs';
+import { Effect, EffectConfig }                         from './effect.model';
+import { Action }                                       from './action.model';
+import { Actions, actions }                             from './actions';
+import { coerceArray }                                  from './utils';
 
 interface EffectsConfig {
   dispatchByDefault?: boolean;
 }
 
 export class EffectsManager {
-  private effects = new WeakMap<Effect, Subject<void>>();
+  private effects         = new WeakMap<Effect, Subscription>();
   private destroyEffects$ = new Subject<void>();
   private config: EffectsConfig;
 
   constructor(config?: EffectsConfig) {
     this.config = {
       dispatchByDefault: false,
-      ...config,
+      ...config
     };
   }
 
@@ -35,15 +34,12 @@ export class EffectsManager {
 
   removeAllEffects() {
     this.destroyEffects$.next();
-    this.effects = new WeakMap<Effect, Subject<void>>();
+    this.effects = new WeakMap();
   }
 
   private subscribeEffect(effect: Effect) {
-    const disposer = new Subject<void>();
-    this.effects.set(effect, disposer);
-
-    effect.source
-      .pipe(takeUntil(this.destroyEffects$), takeUntil(disposer))
+    const sub = effect.source
+      .pipe(takeUntil(this.destroyEffects$))
       .subscribe((maybeAction) => {
         if (
           effect.config?.dispatch ||
@@ -52,11 +48,13 @@ export class EffectsManager {
           actions.dispatch(maybeAction);
         }
       });
+
+    this.effects.set(effect, sub);
   }
 
   private unsubscribeEffect(effect: Effect) {
-    const disposer = this.effects.get(effect);
-    disposer?.next();
+    const sub = this.effects.get(effect);
+    sub?.unsubscribe()
     this.effects.delete(effect);
   }
 }
