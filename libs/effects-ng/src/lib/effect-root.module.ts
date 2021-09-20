@@ -1,7 +1,7 @@
 import { Inject, NgModule, Optional, SkipSelf }   from '@angular/core';
 import { EFFECTS_MANAGER, ROOT_EFFECT_INSTANCES } from './tokens';
 import { EffectsManager }                         from '../../../effects/src/lib/effects-manager';
-import { isEffect }                               from './utils';
+import { isEffect }                               from '../../../effects/src/lib/utils';
 
 @NgModule()
 export class EffectsRootModule {

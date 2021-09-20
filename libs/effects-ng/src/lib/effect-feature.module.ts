@@ -1,7 +1,7 @@
 import { Inject, NgModule }                          from '@angular/core';
 import { EFFECTS_MANAGER, FEATURE_EFFECT_INSTANCES } from './tokens';
 import { EffectsManager }                            from '../../../effects/src/lib/effects-manager';
-import { isEffect }                                  from './utils';
+import { isEffect }                                  from '../../../effects/src/lib/utils';
 
 @NgModule()
 export class EffectsFeatureModule {
