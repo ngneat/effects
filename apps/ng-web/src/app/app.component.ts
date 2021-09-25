@@ -13,7 +13,6 @@ export class AppComponent {
   constructor(
     private actions$: Actions
   ) {
-    console.log('dispatch');
     this.actions$.dispatch(testActionTwo({ yes: 'test test' }));
   }
 }

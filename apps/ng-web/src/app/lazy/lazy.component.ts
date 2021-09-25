@@ -1,5 +1,5 @@
-import { Component }     from '@angular/core';
-import { Actions }       from '@ngneat/effects-ng';
+import { Component } from '@angular/core';
+import { Actions } from '@ngneat/effects-ng';
 import { lazyActionTwo } from './+state/lazy.actions';
 
 @Component({
@@ -15,7 +15,6 @@ export class LazyComponent {
   constructor(
     private actions$: Actions
   ) {
-    console.log('dispatch lazy');
     this.actions$.dispatch(lazyActionTwo({ lazy: 'lazy action payload' }));
   }
 }

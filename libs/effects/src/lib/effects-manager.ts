@@ -73,6 +73,11 @@ function checkAction(
 export let effectsManager: EffectsManager;
 
 export function initEffects(config?: EffectsConfig) {
+
+  if (effectsManager) {
+    return effectsManager;
+  }
+
   return (effectsManager = new EffectsManager(config));
 }
 

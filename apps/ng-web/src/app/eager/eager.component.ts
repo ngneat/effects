@@ -1,5 +1,5 @@
-import { Component }      from '@angular/core';
-import { Actions }        from '@ngneat/effects-ng';
+import { Component } from '@angular/core';
+import { Actions } from '@ngneat/effects-ng';
 import { eagerActionOne } from './+state/eager.actions';
 
 @Component({
@@ -15,7 +15,6 @@ export class EagerComponent {
   constructor(
     private actions$: Actions
   ) {
-    console.log('dispatch eager');
     this.actions$.dispatch(eagerActionOne());
   }
 }
