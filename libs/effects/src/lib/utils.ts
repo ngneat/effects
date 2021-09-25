@@ -1,4 +1,4 @@
-import { Effect }     from './effects.types';
+import { Effect } from './effects.types';
 import { Observable } from 'rxjs';
 
 export function coerceArray<T>(value: T | T[]): T[] {

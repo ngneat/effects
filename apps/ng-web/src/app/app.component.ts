@@ -1,6 +1,6 @@
-import { Component }     from '@angular/core';
+import { Component } from '@angular/core';
 import { testActionTwo } from './+state/test.actions';
-import { Actions }       from '@ngneat/effects-ng';
+import { Actions } from '@ngneat/effects-ng';
 
 @Component({
   selector: 'effects-root',

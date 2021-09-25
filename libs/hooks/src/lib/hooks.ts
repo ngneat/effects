@@ -8,5 +8,5 @@ export function useEffects(effects: Effect | Effect[]) {
     return () => {
       removeEffects(effects);
     };
-  }, []);
+  }, [effects]);
 }
