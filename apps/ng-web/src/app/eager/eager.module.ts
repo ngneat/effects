@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { EffectsNgModule } from '@ngneat/effects-ng';
 import { EagerComponent } from './eager.component';
-import { EagerEffects } from './+state/eager.effects';
+import { EagerEffects } from './state/eager.effects';
 
 @NgModule({
   declarations: [EagerComponent],

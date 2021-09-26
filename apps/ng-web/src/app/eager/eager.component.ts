@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Actions } from '@ngneat/effects-ng';
-import { eagerActionOne } from './+state/eager.actions';
+import { eagerActionOne } from './state/eager.actions';
 
 @Component({
   selector: 'effects-root',
