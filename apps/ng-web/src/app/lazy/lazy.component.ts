@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Actions } from '@ngneat/effects-ng';
-import { lazyActionTwo } from './+state/lazy.actions';
+import { lazyActionTwo } from './state/lazy.actions';
 
 @Component({
   selector: 'effects-root',

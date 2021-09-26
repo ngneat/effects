@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { testActionTwo } from './+state/test.actions';
+import { testActionTwo } from './state/test.actions';
 import { Actions } from '@ngneat/effects-ng';
 
 @Component({
