@@ -90,6 +90,7 @@
     "jest": "27.0.3",
     "jest-preset-angular": "9.0.7",
     "mini-css-extract-plugin": "2.1.0",
+    "ng-packagr": "^12.1.1",
     "prettier": "2.3.1",
     "react-refresh": "0.10.0",
     "source-map-loader": "3.0.0",

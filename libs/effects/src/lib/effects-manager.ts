@@ -1,10 +1,10 @@
 import { Observable, Subject, Subscription, takeUntil } from 'rxjs';
-import { Effect, EffectConfig } from './effects.types';
-import { Action } from './actions.types';
 import { Actions, actions } from './actions';
 import { coerceArray } from './utils';
+import { Effect, EffectConfig } from './effects.types';
+import { Action } from './actions.types';
 
-interface EffectsConfig {
+export interface EffectsConfig {
   dispatchByDefault?: boolean;
 }
 
@@ -54,7 +54,7 @@ export class EffectsManager {
 
   private unsubscribeEffect(effect: Effect) {
     const sub = this.effects.get(effect);
-    sub?.unsubscribe()
+    sub?.unsubscribe();
     this.effects.delete(effect);
   }
 }
@@ -73,6 +73,11 @@ function checkAction(
 export let effectsManager: EffectsManager;
 
 export function initEffects(config?: EffectsConfig) {
+
+  if (effectsManager) {
+    return effectsManager;
+  }
+
   return (effectsManager = new EffectsManager(config));
 }
 

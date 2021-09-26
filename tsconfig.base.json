@@ -17,7 +17,8 @@
     "baseUrl": ".",
     "paths": {
       "@ngneat/effect-hooks": ["libs/hooks/src/index.ts"],
-      "@ngneat/effects": ["libs/effects/src/index.ts"]
+      "@ngneat/effects": ["libs/effects/src/index.ts"],
+      "@ngneat/effects-ng": ["libs/effects-ng/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
