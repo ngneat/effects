@@ -21,7 +21,7 @@ export const addTodo = createAction('[Todos] Add Todo', props<{ title: string })
 Next, we need to define the effects, and register them:
 
 ```ts
-import { createEffect, registerEffects } from '@ngneat/effects';
+import { createEffect, registerEffects, ofType } from '@ngneat/effects';
 
 export const addTodo$ = createEffect((actions) =>
   actions.pipe(
