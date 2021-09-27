@@ -2,7 +2,7 @@ import { Inject, InjectionToken, Injector, ModuleWithProviders, NgModule, Type }
 import { actions, Effect, EffectsConfig, EffectsManager, initEffects, isEffect, registerEffects } from '@ngneat/effects';
 import { Actions }                                                                                from './actions';
 
-const EFFECTS_PROVIDERS = new InjectionToken('EFFECTS_PROVIDERS');
+export const EFFECTS_PROVIDERS = new InjectionToken('EFFECTS_PROVIDERS');
 const EFFECTS_MANAGER   = new InjectionToken('@ngneat/effects Effects Manager');
 
 @NgModule({
