@@ -14,7 +14,6 @@
 ![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e5079.svg?style=flat-square]https://github.com/semantic-release/semantic-release)
 ![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg?style=flat-square]https://github.com/prettier/prettier)
 
-
 # Effects
 
 First, we need to initialize the the library by calling the `initEffects()` function:
@@ -30,7 +29,7 @@ Next, we need to define our actions. For example:
 ```ts
 import { createAction } from '@ngneat/effects';
 
-export const addTodo = createAction('[Todos] Add Todo', props<{ title: string });
+export const addTodo = createAction('[Todos] Add Todo', props < { title: string });
 ```
 
 Next, we need to define the effects, and register them:
@@ -57,14 +56,15 @@ dispatch(addTodo({ title: 'effects' }));
 ```
 
 ## Use with React
+
 First, install the package: `npm i @ngneat/effects-hook`.
 
 Now, we can use the `useEffects` hook and pass our effects:
 
 ```ts
 import { useEffects } from '@ngneat/effects-hook';
-import { dispatch } from '@ngneat/effects';
-import { useEffect } from 'react';
+import { dispatch }   from '@ngneat/effects';
+import { useEffect }  from 'react';
 
 export function TodosPage() {
   useEffects([loadTodos$, addTodo$]);
@@ -72,21 +72,115 @@ export function TodosPage() {
   useEffect(() => dispatch(loadTodos()), []);
 
   return (
-    <button onClick={() => dispatch(addTodo({ title: 'foo' }))}>
-       Add
-    </button>
-  )
+    <button onClick = {()
+=>
+  dispatch(addTodo({ title: 'foo' }))
+}>
+  Add
+  < /button>
+)
 }
 ```
 
 The effects we pass are tied to the component life cycle hook and will be destroyed with the component.
 
 ## Use with Angular
+
 First, install the package: `npm i @ngneat/effects-ng`.
 
-TODO
+Then we need to register our root effects in our app module.
+
+```ts
+import { TodoEffects } from "todo/todo.effect.ts"
+
+// app.module.ts
+EffectsNgModule.forRoot([TodoEffects])
+
+@NgModule({
+  imports: [
+    EffectsNgModule.forRoot([TodoEffects]),
+  ]
+})
+export class AppModule {
+}
+```
+
+In order to register lazily loaded effects use the forFeature method.
+
+```ts
+import { UserEffects } from "user/user.effect.ts"
+
+// lazy.module.ts
+@NgModule({
+  imports: [
+    EffectsNgModule.forFeature([UserEffects])
+  ]
+})
+export class LazyModule {
+}
+```
+
+An injectable effects class holds properties and uses dependency injection as you're familiar from other Angular
+injectable services.
+
+```ts
+// todo.effect.ts
+@Injectable()
+export class TodoEffects {
+
+  constructor(
+    private todoApiService: TodoApiService
+  ) {
+  }
+
+  loadTodos = createEffect(actions => actions.pipe(
+    ofType(loadTodos),
+    switchMap((todo) => this.todoApiService.loadTodos()),
+    map(({ todos }) => actions.dispatch(showSnackbar({ message: `Todos loaded.` })))
+  ));
+}
+```
+
+Effects listen to actions that can be triggered by using the actions stream and its dispatch method
+
+```ts
+// todo.action.ts
+export interface Todo {
+  id: string;
+  name: string;
+  status: "not started" | "in progress" | "done"
+}
+
+// we recommend using the actions factory to prefix each action for better readability and debug purposes when using redux dev tools
+const todoActions = actionsFactory("todo")
+
+// we can declare an action by passing it a type and an optional payload. 
+export const loadTodos = todoActions.create("Load Todos")
+export const addTodo   = todoActions.create("Add Todo", props<Todo>())
+
+```
+
+If we don't need the reactive behavior of effects and we want to call an effect without using actions we can use the
+effect functions as explained below.
+
+The actions can be dispatched wherever we have access to the actions stream. Common use cases are dispatching actions in
+components or within other effects
+
+```ts
+// app.component.ts
+@Component(...)
+export class AppComponent {
+  constructor(private actions: Actions) {
+  }
+
+  ngOnInit() {
+    this.actions.dispatch(loadTodos());
+  }
+}
+```
 
 # Effect Functions
+
 To use an `effect` function we first need to create it by using the `createEffectFn` function:
 
 ```ts
@@ -100,9 +194,11 @@ export const searchTodoEffect = createEffectFn((searchTerm$: Observable<string>)
 });
 ```
 
-The `createEffectFn` function takes a `callback` function which is passed an `Observable` parameter and returns an `Observable`.
+The `createEffectFn` function takes a `callback` function which is passed an `Observable` parameter and returns
+an `Observable`.
 
 ### Use with React
+
 First, install the package: `npm i @ngneat/effects-hook`.
 
 We can register the effect in our component, and call it when we need:
@@ -113,12 +209,15 @@ import { useComponentEffects$ } from '@ngneat/effects-hooks';
 function SearchComponent() {
   const searchTodo = useComponentEffects(searchTodoEffect);
 
-  return <input onChange={({ target: { value } }) => searchTodo(value)} />
+  return <input onChange = {({ target: { value } })
+=>
+  searchTodo(value)
+}
+  />
 }
 ```
 
 Every time the `effect` is called, its value is pushed into that `Observable`.
-
 
 We can also register multiple effects:
 
@@ -128,11 +227,13 @@ function FooComponent() {
     addTodoEffect, updateTodoEffect, deleteTodoEffect
   ]);
 
-  return ...
+  return
+...
 }
 ```
 
 ### Use with Angular
+
 First, install the package: `npm i @ngneat/effects-ng`.
 
 Create an effect class, extends the `ComponentEffects` and use the `createEffectFn` to create your effects:
@@ -147,7 +248,7 @@ export class TodosEffects extends ComponentEffects {
       debounceTime(300),
       switchMap((searchTerm) => fetchTodos({ searchTerm })),
     );
- }); 
+  });
 }
 ```
 
