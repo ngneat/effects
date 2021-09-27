@@ -1,4 +1,4 @@
-import { actions, actionsFactory } from '@ngneat/effects';
+import { actions, actionsFactory } from '../index';
 
 describe('Actions factory', () => {
 

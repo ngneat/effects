@@ -1,4 +1,4 @@
-import { actions, createAction } from '@ngneat/effects';
+import { actions, createAction } from '../index';
 
 const actionOne = createAction('Action One');
 
