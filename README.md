@@ -1,4 +1,21 @@
+<p align="center">
+ <img width="15%" height="15%" src="effects.png">
+</p>
+
+<br />
+
 > A framework-agnostic RxJS effects implementation
+
+<br />
+
+![@ngneat/effects](https://github.com/ngneat/elf/actions/workflows/ci.yml/badge.svg]https://github.com/ngneat/effects/actions/workflows/ci.yml)
+![commitizen](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=flat-square)
+![PRs](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)
+![coc-badge](https://img.shields.io/badge/codeof-conduct-ff69b4.svg?style=flat-square)
+![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e5079.svg?style=flat-square]https://github.com/semantic-release/semantic-release)
+![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg?style=flat-square]https://github.com/prettier/prettier)
+
+<br />
 
 # Effects
 
@@ -69,7 +86,7 @@ The effects we pass are tied to the component life cycle hook and will be destro
 ## Use with Angular
 First, install the package: `npm i @ngneat/effects-ng`.
 
-
+TODO
 
 # Effect Functions
 To use an `effect` function we first need to create it by using the `createEffectFn` function:
@@ -153,3 +170,5 @@ export class TodosComponent {
   }
 }
 ```
+
+<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>

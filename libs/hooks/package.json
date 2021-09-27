@@ -1,4 +1,35 @@
 {
-  "name": "@ngneat/effect-hooks",
-  "version": "0.0.1"
+  "name": "@ngneat/effects-hooks",
+  "version": "1.0.0-beta.0",
+  "description": "A framework-agnostic RxJS effects implementation",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/ngneat/effects/issues"
+  },
+  "homepage": "https://github.com/ngneat/effects#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ngneat/effects"
+  },
+  "keywords": [
+    "rxjs",
+    "state management",
+    "reactive state management",
+    "js state management",
+    "rxjs effects",
+    "actions",
+    "react effects",
+    "effects"
+  ],
+  "author": {
+    "name": "Netanel Basal",
+    "email": "netanel7799@gmail.com",
+    "url": "https://netbasal.com"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "rxjs": "*"
+  }
 }

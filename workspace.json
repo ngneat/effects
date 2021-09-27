@@ -30,6 +30,9 @@
             "jestConfig": "libs/effects/jest.config.js",
             "passWithNoTests": true
           }
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version"
         }
       }
     },
@@ -71,6 +74,9 @@
               "libs/effects-ng/src/**/*.html"
             ]
           }
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version"
         }
       }
     },
@@ -112,6 +118,9 @@
             "jestConfig": "libs/hooks/jest.config.js",
             "passWithNoTests": true
           }
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version"
         }
       }
     },
