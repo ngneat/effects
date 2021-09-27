@@ -161,7 +161,7 @@ export const addTodo   = todoActions.create("Add Todo", props<Todo>())
 ```
 
 If we don't need the reactive behavior of effects and we want to call an effect without using actions we can use the
-effect functions as explained below.
+effect functions as explained [below](#use-with-angular).
 
 The actions can be dispatched wherever we have access to the actions stream. Common use cases are dispatching actions in
 components or within other effects
