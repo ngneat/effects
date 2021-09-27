@@ -161,7 +161,7 @@ export const addTodo   = todoActions.create("Add Todo", props<Todo>())
 ```
 
 If we don't need the reactive behavior of effects and we want to call an effect without using actions we can use the
-effect functions as explained [below](#use-with-angular).
+effect functions as explained [below](#angular-effect-functions).
 
 The actions can be dispatched wherever we have access to the actions stream. Common use cases are dispatching actions in
 components or within other effects
@@ -232,7 +232,7 @@ function FooComponent() {
 }
 ```
 
-### Use with Angular
+<h3 id="angular-effect-functions">Use with Angular</h3>
 
 First, install the package: `npm i @ngneat/effects-ng`.
 
