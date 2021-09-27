@@ -11,14 +11,8 @@ export class TestEffects {
     console.log('TestEffects constructor');
   }
 
-  dummy = 1;
-
   testEffectOne$ = createEffect(actions => actions.pipe(
     ofType(testActionTwo),
     tap((payload) => console.log('effect', payload))
   ));
-
-  private testMethod() {
-    console.log('whatever');
-  }
 }

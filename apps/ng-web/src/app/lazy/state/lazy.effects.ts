@@ -5,6 +5,7 @@ import { ofType } from 'ts-action-operators';
 import { lazyActionTwo } from './lazy.actions';
 import { tap } from 'rxjs';
 import { LazyService } from './lazy.service';
+
 @Injectable()
 export class LazyEffects {
 
@@ -18,8 +19,4 @@ export class LazyEffects {
     ofType(lazyActionTwo),
     tap((payload) => console.log('effect', payload))
   ));
-
-  private testMethod() {
-    console.log('whatever');
-  }
 }

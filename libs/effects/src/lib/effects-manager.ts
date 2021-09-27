@@ -1,4 +1,5 @@
-import { Observable, Subject, Subscription, takeUntil } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Actions, actions } from './actions';
 import { coerceArray } from './utils';
 import { Effect, EffectConfig } from './effects.types';

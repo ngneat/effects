@@ -1,5 +1,6 @@
-import { createAction, createEffect, ofType, props } from '@ngneat/effects';
-import { delay, mergeMap, tap } from 'rxjs/operators';
+import { createAction, createEffect, createEffectFn, ofType, props } from '@ngneat/effects';
+import { Observable } from 'rxjs';
+import { debounceTime, delay, finalize, mergeMap, tap } from 'rxjs/operators';
 import { prependTodo, setTodos, Todo, updateLoading } from './todos.repository';
 
 export const loadTodos = createAction('[Todos] Load Todos');
@@ -27,3 +28,18 @@ export const addTodo$ = createEffect((actions) =>
     tap((props) => prependTodo(props))
   )
 );
+
+
+export const searchTodoEffect = createEffectFn((searchTerm$: Observable<string>) => {
+  return searchTerm$.pipe(
+    debounceTime(300),
+    finalize(() => {
+      console.log('finalize searchTodoEffect')
+    }),
+    tap({
+      next(v) {
+        console.log(v);
+      }
+    })
+  );
+});

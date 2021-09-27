@@ -13,8 +13,8 @@ import { lazyActionTwo } from './state/lazy.actions';
 export class LazyComponent {
 
   constructor(
-    private actions$: Actions
+    private actions: Actions
   ) {
-    this.actions$.dispatch(lazyActionTwo({ lazy: 'lazy action payload' }));
+    this.actions.dispatch(lazyActionTwo({ lazy: 'lazy action payload' }));
   }
 }

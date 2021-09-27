@@ -1,2 +1,3 @@
-export * from './lib/effects-ng.module';
-export * from './lib/actions';
+export { EffectsNgModule } from './lib/effects-ng.module';
+export { Actions } from './lib/actions';
+export { ComponentEffects } from './lib/component-effects'

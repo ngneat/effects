@@ -5,7 +5,7 @@
   "scripts": {
     "nx": "nx",
     "start:ng": "nx serve ng-web",
-    "start:react": "nx serve react-web",
+    "start:react": "nx serve react-web --port 4002",
     "build": "nx build",
     "test": "nx test",
     "lint": "nx workspace-lint && nx lint",

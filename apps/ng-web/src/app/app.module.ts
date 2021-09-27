@@ -20,7 +20,7 @@ import { EagerModule } from './eager/eager.module';
         path: 'lazy',
         loadChildren: () => import('./lazy/lazy.module').then(m => m.LazyModule)
       }
-    ], { initialNavigation: 'enabledBlocking' }),
+    ]),
     EffectsNgModule.forRoot([TestEffects]),
     EagerModule
   ],

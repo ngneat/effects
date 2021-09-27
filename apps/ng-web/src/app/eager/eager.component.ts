@@ -13,8 +13,8 @@ import { eagerActionOne } from './state/eager.actions';
 export class EagerComponent {
 
   constructor(
-    private actions$: Actions
+    private actions: Actions
   ) {
-    this.actions$.dispatch(eagerActionOne());
+    this.actions.dispatch(eagerActionOne());
   }
 }
