@@ -5,9 +5,10 @@ import { Observable, Subject } from "rxjs";
 @Injectable()
 export class ComponentEffects implements OnDestroy {
   private destroy = new Subject<boolean>();
+  private destroy$ = this.destroy.asObservable();
 
   createEffectFn<T>(factoryFn: (source: Observable<T>) => Observable<unknown>) {
-    return createEffectFn(factoryFn)(this.destroy.asObservable());
+    return createEffectFn(factoryFn)(this.destroy$);
   }
 
   ngOnDestroy() {
