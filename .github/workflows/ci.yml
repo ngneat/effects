@@ -1,6 +1,9 @@
 name: '@ngneat/effects'
 
 on:
+ push:
+    branches:
+      - master
   pull_request:
 
 jobs:
