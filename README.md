@@ -8,7 +8,7 @@
 
 <br />
 
-![@ngneat/effects](https://github.com/ngneat/elf/actions/workflows/ci.yml/badge.svg]https://github.com/ngneat/effects/actions/workflows/ci.yml)
+[![@ngneat/effects](https://github.com/ngneat/effects/actions/workflows/ci.yml/badge.svg)](https://github.com/ngneat/effects/actions/workflows/ci.yml)
 ![commitizen](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=flat-square)
 ![PRs](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)
 ![coc-badge](https://img.shields.io/badge/codeof-conduct-ff69b4.svg?style=flat-square)
