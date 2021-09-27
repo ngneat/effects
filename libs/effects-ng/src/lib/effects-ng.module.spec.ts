@@ -1,7 +1,6 @@
-import { Injectable }        from '@angular/core';
-import { TestBed }           from '@angular/core/testing';
-import { EffectsNgModule }   from '@ngneat/effects-ng';
-import { EFFECTS_PROVIDERS } from './effects-ng.module';
+import { Injectable }                         from '@angular/core';
+import { TestBed }                            from '@angular/core/testing';
+import { EFFECTS_PROVIDERS, EffectsNgModule } from './effects-ng.module';
 
 @Injectable()
 class EffectsOne {
