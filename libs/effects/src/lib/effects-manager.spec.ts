@@ -1,25 +1,25 @@
-import { createEffect, EffectsManager, initEffects, registerEffects, removeAllEffects, removeEffects } from './effects-manager';
-import { createAction }                                                                                from '../index';
-import { props }                                                                                       from 'ts-action';
-import { ofType }                                                                                      from 'ts-action-operators';
+import {
+  createEffect,
+  EffectsManager,
+  initEffects,
+  registerEffects,
+  removeAllEffects,
+  removeEffects,
+} from './effects-manager';
+import { createAction } from '../index';
+import { props } from 'ts-action';
+import { ofType } from 'ts-action-operators';
 
-const actionOne   = createAction('Action One');
-const actionTwo   = createAction('Action Two', props<{ value: string }>());
+const actionOne = createAction('Action One');
+const actionTwo = createAction('Action Two', props<{ value: string }>());
 const actionThree = createAction('Action Three', props<{ value: string }>());
 
-const effectOne    = createEffect(actions => actions.pipe(
-    ofType(actionOne)
-  )
+const effectOne = createEffect((actions) => actions.pipe(ofType(actionOne)));
+const effectTwo = createEffect((actions) => actions.pipe(ofType(actionTwo)));
+const effectThree = createEffect((actions) =>
+  actions.pipe(ofType(actionThree))
 );
-const effectTwo    = createEffect(actions => actions.pipe(
-    ofType(actionTwo)
-  )
-);
-const effectThree  = createEffect(actions => actions.pipe(
-    ofType(actionThree)
-  )
-);
-const faultyEffect = createEffect(() => ({ faulty: 'test' }) as any);
+const faultyEffect = createEffect(() => ({ faulty: 'test' } as any));
 
 describe('Effects Manager', () => {
   let effectsManager: EffectsManager;
@@ -79,7 +79,7 @@ describe('Effects Manager', () => {
 
     effectsManager['unsubscribeEffect'](effectThree);
 
-    expect(spy).toHaveBeenCalled()
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should fail if wrong action format is provided', () => {
