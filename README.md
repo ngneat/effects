@@ -37,7 +37,8 @@ export interface Todo {
 
 export const addTodo = createAction('[Todos] Add Todo', props < { title: string });
 
-// Ee recommend using the actions factory to prefix each action for better readability and debug purposes when using redux dev tools
+// Ee recommend using the actions factory to prefix each action 
+// for better readability and debug purposes when using redux dev tools
 export const todoActions = actionsFactory('todo');
 
 // We can declare an action by passing it a type and an optional payload. 
@@ -212,7 +213,7 @@ function FooComponent() {
 
 First, install the package: `npm i @ngneat/effects-ng`.
 
-Create an effect class, extends the `EffectFn` and use the `createEffectFn` to create your effects:
+Create an effect class, extends the `EffectFn` class and use the `createEffectFn` to create your effects:
 
 ```ts
 import { EffectFn } from '@ngneat/effects-ng';
