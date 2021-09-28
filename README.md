@@ -27,7 +27,7 @@ initEffects();
 Actions are created by using the `createAction` or `actionsFactory` functions:
 
 ```ts
-import { actionsFactory, createAction } from '@ngneat/effects';
+import { actionsFactory, createAction, props } from '@ngneat/effects';
 
 // todos.actions.ts
 export interface Todo {
@@ -35,7 +35,7 @@ export interface Todo {
   name: string;
 }
 
-export const addTodo = createAction('[Todos] Add Todo', props < { title: string });
+export const addTodo = createAction('[Todos] Add Todo', props<{ title: string });
 
 // Ee recommend using the actions factory to prefix each action 
 // for better readability and debug purposes when using redux dev tools
