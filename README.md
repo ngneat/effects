@@ -151,6 +151,8 @@ export class LazyModule {
 The actions can be dispatched by injecting the `Actions` provider:
 
 ```ts
+import { Actions } from '@ngneat/effects-ng';
+
 @Component(...)
 export class AppComponent {
   constructor(private actions: Actions) {}
@@ -213,7 +215,7 @@ function FooComponent() {
 
 First, install the package: `npm i @ngneat/effects-ng`.
 
-Create an effect class, extends the `EffectFn` class and use the `createEffectFn` to create your effects:
+Create an effect class, extends the `EffectFn` class and use the `createEffectFn` method to create your effects:
 
 ```ts
 import { EffectFn } from '@ngneat/effects-ng';
