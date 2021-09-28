@@ -3,7 +3,7 @@ import { createEffectFn } from "@ngneat/effects";
 import { Observable, Subject } from "rxjs";
 
 @Injectable()
-export class ComponentEffects implements OnDestroy {
+export class EffectFn implements OnDestroy {
   private destroy = new Subject<boolean>();
   private destroy$ = this.destroy.asObservable();
 

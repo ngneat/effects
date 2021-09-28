@@ -1,9 +1,9 @@
 import { MonoTypeOperatorFunction, Observable, Subject, takeUntil } from "rxjs";
 import { useRef, useMemo, useEffect } from 'react';
 
-export function useComponentEffects<R extends Effect$[]>(effects: R): ReturnTypes<R>;
-export function useComponentEffects<R extends Effect$>(effect: R): ReturnType<R>;
-export function useComponentEffects(effects: Effect$[] | Effect$): any {
+export function useEffectFn<R extends Effect$[]>(effects: R): ReturnTypes<R>;
+export function useEffectFn<R extends Effect$>(effect: R): ReturnType<R>;
+export function useEffectFn(effects: Effect$[] | Effect$): any {
   const { destroyed } = useUntilDestroyed();
   const result = useRef<any>([]);
 
