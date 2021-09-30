@@ -28,7 +28,6 @@
     "dep-graph": "nx dep-graph",
     "help": "nx help",
     "postinstall": "ngcc --properties es2015 browser module main",
-    "cz": "cz",
     "prepare": "husky install"
   },
   "private": true,
@@ -49,7 +48,7 @@
     "rxjs": "7.3.0",
     "ts-action": "11.0.0",
     "ts-action-operators": "9.1.2",
-    "tslib": "2.0.0",
+    "tslib": "2.3.1",
     "zone.js": "0.11.4"
   },
   "devDependencies": {
@@ -98,7 +97,7 @@
     "jest": "27.0.3",
     "jest-preset-angular": "9.0.7",
     "mini-css-extract-plugin": "2.1.0",
-    "ng-packagr": "12.1.1",
+    "ng-packagr": "12.2.2",
     "prettier": "2.3.1",
     "react-refresh": "0.10.0",
     "source-map-loader": "3.0.0",

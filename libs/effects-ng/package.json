@@ -29,7 +29,13 @@
     "url": "https://netbasal.com"
   },
   "license": "MIT",
+  "dependencies": {
+    "rxjs": "*",
+    "@ngneat/effects": "*",
+    "ts-action": "11.0.0",
+    "ts-action-operators": "9.1.2"
+  },
   "peerDependencies": {
-    "rxjs": "*"
+    "@angular/core": "*"
   }
 }

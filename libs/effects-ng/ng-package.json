@@ -3,5 +3,14 @@
   "dest": "../../dist/libs/effects-ng",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "assets": [
+    "../../README.md"
+  ],
+  "allowedNonPeerDependencies": [
+    "rxjs",
+    "@ngneat/effects",
+    "ts-action",
+    "ts-action-operators"
+  ]
 }
