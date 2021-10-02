@@ -1,10 +1,11 @@
-import { Component, Injectable }              from '@angular/core';
-import { TestBed }                            from '@angular/core/testing';
-import { EFFECTS_PROVIDERS, EffectsNgModule } from './effects-ng.module';
-import { ofType }                             from 'ts-action-operators';
-import { tap }                                from 'rxjs';
-import { Actions }                            from '@ngneat/effects-ng';
-import { createAction, createEffect }         from '@ngneat/effects';
+import { Component, Injectable }      from '@angular/core';
+import { TestBed }                    from '@angular/core/testing';
+import { EffectsNgModule }            from './effects-ng.module';
+import { ofType }                     from 'ts-action-operators';
+import { tap }                        from 'rxjs';
+import { Actions }                    from './actions';
+import { createAction, createEffect } from '@ngneat/effects';
+import { EFFECTS_PROVIDERS }          from './tokens';
 
 const spy = jest.fn();
 
