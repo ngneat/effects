@@ -1,10 +1,10 @@
 import { createEffectFn } from '@ngneat/effects';
 import { Observable } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
-import { useComponentEffects } from './use-component-effects';
+import { useEffectFn } from './use-effect-fn';
 import { render, fireEvent } from '@testing-library/react';
 
-describe('useComponentEffects', () => {
+describe('useEffectFn', () => {
   const spy = jest.fn();
   const destroySpy = jest.fn();
 
@@ -16,7 +16,7 @@ describe('useComponentEffects', () => {
   });
 
   function SearchComponent() {
-    const searchTodo = useComponentEffects(searchTodoEffect);
+    const searchTodo = useEffectFn(searchTodoEffect);
 
     return <input data-testid="input" onChange={({ target: { value } }) => searchTodo(value)} />
   }

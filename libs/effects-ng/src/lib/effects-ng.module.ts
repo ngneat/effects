@@ -1,18 +1,10 @@
-import { Inject, InjectionToken, Injector, ModuleWithProviders, NgModule, Type }                  from '@angular/core';
+import { Inject, Injector, ModuleWithProviders, NgModule, Type } from '@angular/core';
 import { actions, Effect, EffectsConfig, EffectsManager, initEffects, isEffect, registerEffects } from '@ngneat/effects';
-import { Actions }                                                                                from './actions';
+import { Actions } from './actions';
+import { EFFECTS_MANAGER, EFFECTS_PROVIDERS } from './tokens';
 
-export const EFFECTS_PROVIDERS = new InjectionToken('EFFECTS_PROVIDERS');
-const EFFECTS_MANAGER   = new InjectionToken('@ngneat/effects Effects Manager');
 
-@NgModule({
-  providers: [
-    {
-      provide: Actions,
-      useValue: actions
-    }
-  ]
-})
+@NgModule()
 export class EffectsNgModule {
   constructor(
     @Inject(EFFECTS_MANAGER) manager: EffectsManager,
@@ -23,7 +15,7 @@ export class EffectsNgModule {
 
     flattenProviders.forEach(provider => {
       const instance = injector.get(provider);
-      const effects  = Object.values(instance).filter((v: any) => isEffect(v));
+      const effects = Object.values(instance).filter((v: any) => isEffect(v));
 
       registerEffects(effects as Effect[]);
     });
@@ -37,6 +29,10 @@ export class EffectsNgModule {
     return {
       ngModule: EffectsNgModule,
       providers: [
+        {
+          provide: Actions,
+          useValue: actions
+        },
         {
           provide: EFFECTS_MANAGER,
           useFactory: () => initEffects(config)

@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { addTodo, addTodo$, loadTodos, loadTodos$, searchTodoEffect } from './todos.effects';
 import { loading$, todos$ } from './todos.repository';
 import { dispatch } from '@ngneat/effects';
-import { useComponentEffects, useEffects } from '@ngneat/effect-hooks';
+import { useEffectFn, useEffects } from '@ngneat/effect-hooks';
 import { useObservable } from '@ngneat/use-observable';
 
 function SearchComponent() {
-  const searchTodo = useComponentEffects(searchTodoEffect);
+  const searchTodo = useEffectFn(searchTodoEffect);
 
   return <input onChange={({ target: { value } }) => searchTodo(value)} />
 }

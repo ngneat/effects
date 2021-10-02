@@ -7,25 +7,44 @@
       "projectType": "library",
       "targets": {
         "build": {
-          "executor": "@nrwl/workspace:tsc",
-          "outputs": ["{options.outputPath}"],
+          "executor": "@nrwl/web:package",
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "outputPath": "dist/libs/effects",
-            "main": "libs/effects/src/index.ts",
             "tsConfig": "libs/effects/tsconfig.lib.json",
-            "assets": ["libs/effects/*.md"]
+            "project": "libs/effects/package.json",
+            "entryFile": "libs/effects/src/index.ts",
+            "external": [
+              "react/jsx-runtime"
+            ],
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [
+              {
+                "glob": "README.md",
+                "input": ".",
+                "output": "."
+              }
+            ]
           }
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/effects/**/*.ts"]
+            "lintFilePatterns": [
+              "libs/effects/**/*.ts"
+            ]
           },
-          "outputs": ["{options.outputFile}"]
+          "outputs": [
+            "{options.outputFile}"
+          ]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/effects"],
+          "outputs": [
+            "coverage/libs/effects"
+          ],
           "options": {
             "jestConfig": "libs/effects/jest.config.js",
             "passWithNoTests": true
@@ -44,7 +63,9 @@
       "targets": {
         "build": {
           "executor": "@nrwl/angular:package",
-          "outputs": ["dist/libs/effects-ng"],
+          "outputs": [
+            "dist/libs/effects-ng"
+          ],
           "options": {
             "project": "libs/effects-ng/ng-package.json"
           },
@@ -60,7 +81,9 @@
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/effects-ng"],
+          "outputs": [
+            "coverage/libs/effects-ng"
+          ],
           "options": {
             "jestConfig": "libs/effects-ng/jest.config.js",
             "passWithNoTests": true
@@ -87,17 +110,21 @@
       "targets": {
         "build": {
           "executor": "@nrwl/web:package",
-          "outputs": ["{options.outputPath}"],
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "outputPath": "dist/libs/hooks",
             "tsConfig": "libs/hooks/tsconfig.lib.json",
             "project": "libs/hooks/package.json",
             "entryFile": "libs/hooks/src/index.ts",
-            "external": ["react/jsx-runtime"],
+            "external": [
+              "react/jsx-runtime"
+            ],
             "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
             "assets": [
               {
-                "glob": "libs/hooks/README.md",
+                "glob": "README.md",
                 "input": ".",
                 "output": "."
               }
@@ -106,14 +133,20 @@
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
+          "outputs": [
+            "{options.outputFile}"
+          ],
           "options": {
-            "lintFilePatterns": ["libs/hooks/**/*.{ts,tsx,js,jsx}"]
+            "lintFilePatterns": [
+              "libs/hooks/**/*.{ts,tsx,js,jsx}"
+            ]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/hooks"],
+          "outputs": [
+            "coverage/libs/hooks"
+          ],
           "options": {
             "jestConfig": "libs/hooks/jest.config.js",
             "passWithNoTests": true
@@ -132,7 +165,9 @@
       "targets": {
         "build": {
           "executor": "@angular-devkit/build-angular:browser",
-          "outputs": ["{options.outputPath}"],
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "outputPath": "dist/apps/ng-web",
             "index": "apps/ng-web/src/index.html",
@@ -140,8 +175,13 @@
             "polyfills": "apps/ng-web/src/polyfills.ts",
             "tsConfig": "apps/ng-web/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["apps/ng-web/src/favicon.ico", "apps/ng-web/src/assets"],
-            "styles": ["apps/ng-web/src/styles.scss"],
+            "assets": [
+              "apps/ng-web/src/favicon.ico",
+              "apps/ng-web/src/assets"
+            ],
+            "styles": [
+              "apps/ng-web/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -203,11 +243,15 @@
               "apps/ng-web/src/**/*.html"
             ]
           },
-          "outputs": ["{options.outputFile}"]
+          "outputs": [
+            "{options.outputFile}"
+          ]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/ng-web"],
+          "outputs": [
+            "coverage/apps/ng-web"
+          ],
           "options": {
             "jestConfig": "apps/ng-web/jest.config.js",
             "passWithNoTests": true
@@ -222,7 +266,9 @@
       "targets": {
         "build": {
           "executor": "@nrwl/web:build",
-          "outputs": ["{options.outputPath}"],
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "outputPath": "dist/apps/react-web",
             "index": "apps/react-web/src/index.html",
@@ -233,7 +279,9 @@
               "apps/react-web/src/favicon.ico",
               "apps/react-web/src/assets"
             ],
-            "styles": ["apps/react-web/src/styles.scss"],
+            "styles": [
+              "apps/react-web/src/styles.scss"
+            ],
             "scripts": [],
             "webpackConfig": "@nrwl/react/plugins/webpack"
           },
@@ -277,14 +325,20 @@
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
+          "outputs": [
+            "{options.outputFile}"
+          ],
           "options": {
-            "lintFilePatterns": ["apps/react-web/**/*.{ts,tsx,js,jsx}"]
+            "lintFilePatterns": [
+              "apps/react-web/**/*.{ts,tsx,js,jsx}"
+            ]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/react-web"],
+          "outputs": [
+            "coverage/apps/react-web"
+          ],
           "options": {
             "jestConfig": "apps/react-web/jest.config.js",
             "passWithNoTests": true
