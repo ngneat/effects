@@ -10,6 +10,6 @@ export class EagerEffects {
   eagerEffectOne$ = createEffect(actions => actions.pipe(
     ofType(eagerActionOne),
     tap((payload) => console.log('eager effect', payload))
-  ));
+  ), { dispatch: false });
 
 }
