@@ -114,12 +114,11 @@ export class TodosEffects {
   loadTodos$ = createEffect(actions => actions.pipe(
     ofType(loadTodos),
     switchMap((todo) => this.todosApi.loadTodos())
-  ), /*{ dispatch: false }*/);
+  ));
 }
 ```
 
-We can configure the effect to expect an action to be returned that will be dispatched by the effect. The default is set
-to false.
+By default, the return value of an effect doesn't dispatch an action. You can get this behavior by passing the { dispatch: false } option as a second parameter.
 
 Then we need to register our the `effects` in our app module:
 
@@ -135,10 +134,10 @@ import { TodosEffects }    from 'todos/todos.effect.ts';
 export class AppModule {
 }
 ```
+The forRoot method can take as its second parameter the global configuration. 
+We can set the dispatchByDefault property to true for each effect to dispatch the resulting action. The default is set to false.
 
-We can set the global config as a second parameter in the for root method. If we want each effect to expect an action to
-be returned that can be dispatched we can set the dispatchByDefault property to true. The default is set to false. This
-behavior can be overwritten on each effect as stated above.
+As stated above, this behavior can be overwritten on each effect.
 
 In order to register lazily loaded effects use the `forFeature` method:
 
