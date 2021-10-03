@@ -1,12 +1,12 @@
-import { Injectable }                                    from '@angular/core';
-import { createEffect }                                  from '@ngneat/effects';
-import { ofType }                                        from 'ts-action-operators';
-import { debounceTime, delay, mergeMap, switchMap, tap } from 'rxjs/operators';
-import { prependTodo, setTodos, Todo }                   from './todos.repository';
-import { addTodo, loadTodos }                            from './actions';
-import { Observable }                                    from 'rxjs';
-import { HttpClient }                                    from '@angular/common/http';
-import { EffectFn }                                      from '@ngneat/effects-ng';
+import { Injectable }                         from '@angular/core';
+import { createEffect }                       from '@ngneat/effects';
+import { ofType }                             from 'ts-action-operators';
+import { debounceTime, delay, mergeMap, tap } from 'rxjs/operators';
+import { prependTodo, setTodos, Todo }        from './todos.repository';
+import { addTodo, loadTodos }                 from './actions';
+import { Observable }                         from 'rxjs';
+import { HttpClient }                         from '@angular/common/http';
+import { EffectFn }                           from '@ngneat/effects-ng';
 
 @Injectable({ providedIn: 'root' })
 export class TodoEffects extends EffectFn {
@@ -20,9 +20,7 @@ export class TodoEffects extends EffectFn {
     mergeMap(() => {
       return this.httpClient.get<Todo[]>('https://jsonplaceholder.typicode.com/todos?_limit=10');
     }),
-    tap((todos) => {
-      setTodos(todos);
-    })
+    tap(setTodos)
   ));
 
   addTodo$ = createEffect((actions) =>
@@ -36,13 +34,7 @@ export class TodoEffects extends EffectFn {
   searchTodo = this.createEffectFn((searchTerm$: Observable<string>) => {
     return searchTerm$.pipe(
       debounceTime(300),
-      switchMap((searchTerm) => this.httpClient.post<Todo>(
-        'https://jsonplaceholder.typicode.com/todos',
-        {
-          title: searchTerm
-        }
-      )),
-      tap(todo => prependTodo(todo))
+      tap(console.log)
     );
   });
 }

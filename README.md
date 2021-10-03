@@ -14,7 +14,7 @@
 ![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e5079.svg?style=flat-square]https://github.com/semantic-release/semantic-release)
 ![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg?style=flat-square]https://github.com/prettier/prettier)
 
-👉 Play with the code on [stackblitz](https://stackblitz.com/edit/react-ts-phemyx?devtoolsheight=50&file=index.tsx)
+👉  Play with the code on [stackblitz](https://stackblitz.com/edit/react-ts-phemyx?devtoolsheight=50&file=index.tsx)
 
 # Effects
 
@@ -37,7 +37,7 @@ export interface Todo {
   name: string;
 }
 
-export const addTodo = createAction('[Todos] Add Todo', props < { title: string });
+export const addTodo = createAction('[Todos] Add Todo', props<{ title: string });
 
 // Ee recommend using the actions factory to prefix each action 
 // for better readability and debug purposes when using redux dev tools
@@ -88,13 +88,10 @@ export function TodosPage() {
   useEffect(() => dispatch(loadTodos()), []);
 
   return (
-    <button onClick = {()
-=>
-  dispatch(addTodo({ title: 'foo' }))
-}>
-  Add
-  < /button>
-)
+    <button onClick = {() => dispatch(addTodo({ title: 'foo' }))}>
+      Add
+    </button>
+  )
 }
 ```
 
@@ -107,7 +104,7 @@ First, install the package: `npm i @ngneat/effects-ng`.
 Next, create the `effect` provider:
 
 ```ts
-import { createEffect } from '@ngneat/effects';
+import { createEffect }  from '@ngneat/effects';
 
 @Injectable({ providedIn: 'root' })
 export class TodosEffects {
@@ -115,8 +112,7 @@ export class TodosEffects {
   constructor(private todosApi: TodosApi) {
   }
 
-  loadTodos$ = createEffect(actions =>
-    actions.pipe(
+  loadTodos$ = createEffect(actions => actions.pipe(
       ofType(loadTodos),
       switchMap((todo) => this.todosApi.loadTodos())
     )
@@ -161,8 +157,7 @@ import { Actions } from '@ngneat/effects-ng';
 
 @Component(...)
 export class AppComponent {
-  constructor(private actions: Actions) {
-  }
+  constructor(private actions: Actions) {}
 
   ngOnInit() {
     this.actions.dispatch(loadTodos());
@@ -200,11 +195,7 @@ import { useEffectFn } from '@ngneat/effects-hooks';
 function SearchComponent() {
   const searchTodo = useEffectFn(searchTodoEffect);
 
-  return <input onChange = {({ target: { value } })
-=>
-  searchTodo(value)
-}
-  />
+  return <input onChange = {({ target: { value } }) => searchTodo(value) }/>
 }
 ```
 
@@ -218,8 +209,7 @@ function FooComponent() {
     addTodoEffect, updateTodoEffect, deleteTodoEffect
   ]);
 
-  return
-...
+  return ...
 }
 ```
 
@@ -233,11 +223,7 @@ Create an effect class, extends the `EffectFn` class and use the `createEffectFn
 import { EffectFn } from '@ngneat/effects-ng';
 
 export class TodosEffects extends EffectFn {
-
-  constructor() {
-    super();
-  }
-
+  
   searchTodo = this.createEffectFn((searchTerm$: Observable<string>) => {
     return searchTerm$.pipe(
       debounceTime(300),
