@@ -1,15 +1,15 @@
-import { Component } from '@angular/core';
-import { testActionTwo } from './state/test.actions';
-import { Actions } from '@ngneat/effects-ng';
-import { Foo } from './eager/state/foo-effects';
+import { Component, OnInit } from '@angular/core';
+import { testActionTwo }     from './state/test.actions';
+import { Actions }           from '@ngneat/effects-ng';
+import { Foo }               from './eager/state/foo-effects';
 
 @Component({
   selector: 'effects-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  providers: [Foo],
+  providers: [Foo]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   constructor(
     private foo: Foo,
     private actions: Actions

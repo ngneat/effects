@@ -1,8 +1,7 @@
-import { Inject, Injector, ModuleWithProviders, NgModule, Type } from '@angular/core';
+import { Inject, Injector, ModuleWithProviders, NgModule, Type }                                  from '@angular/core';
 import { actions, Effect, EffectsConfig, EffectsManager, initEffects, isEffect, registerEffects } from '@ngneat/effects';
-import { Actions } from './actions';
-import { EFFECTS_MANAGER, EFFECTS_PROVIDERS } from './tokens';
-
+import { Actions }                                                                                from './actions';
+import { EFFECTS_MANAGER, EFFECTS_PROVIDERS }                                                     from './tokens';
 
 @NgModule()
 export class EffectsNgModule {
@@ -15,7 +14,7 @@ export class EffectsNgModule {
 
     flattenProviders.forEach(provider => {
       const instance = injector.get(provider);
-      const effects = Object.values(instance).filter((v: any) => isEffect(v));
+      const effects  = Object.values(instance).filter((v: any) => isEffect(v));
 
       registerEffects(effects as Effect[]);
     });

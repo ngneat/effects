@@ -109,16 +109,16 @@ import { createEffect }  from '@ngneat/effects';
 @Injectable({ providedIn: 'root' })
 export class TodosEffects {
 
-  constructor(private todosApi: TodosApi) {
-  }
+  constructor(private todosApi: TodosApi) {}
 
   loadTodos$ = createEffect(actions => actions.pipe(
-      ofType(loadTodos),
-      switchMap((todo) => this.todosApi.loadTodos())
-    )
-  );
+    ofType(loadTodos),
+    switchMap((todo) => this.todosApi.loadTodos())
+  ));
 }
 ```
+
+By default, the return value of an effect doesn't dispatch an action. You can get this behavior by passing the { dispatch: false } option as a second parameter.
 
 Then we need to register our the `effects` in our app module:
 
@@ -128,12 +128,16 @@ import { TodosEffects }    from 'todos/todos.effect.ts';
 
 @NgModule({
   imports: [
-    EffectsNgModule.forRoot([TodosEffects]),
+    EffectsNgModule.forRoot([TodosEffects], { dispatchByDefault: false }),
   ]
 })
 export class AppModule {
 }
 ```
+The forRoot method can take as its second parameter the global configuration. 
+We can set the dispatchByDefault property to true for each effect to dispatch the resulting action. The default is set to false.
+
+As stated above, this behavior can be overwritten on each effect.
 
 In order to register lazily loaded effects use the `forFeature` method:
 
@@ -223,13 +227,13 @@ Create an effect class, extends the `EffectFn` class and use the `createEffectFn
 import { EffectFn } from '@ngneat/effects-ng';
 
 export class TodosEffects extends EffectFn {
-  
-  searchTodo = this.createEffectFn((searchTerm$: Observable<string>) => {
-    return searchTerm$.pipe(
+
+  searchTodo = this.createEffectFn((searchTerm$: Observable<string>) => 
+    searchTerm$.pipe(
       debounceTime(300),
       switchMap((searchTerm) => fetchTodos({ searchTerm })),
     );
-  });
+  );
 }
 ```
 
