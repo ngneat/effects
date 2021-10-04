@@ -228,12 +228,12 @@ import { EffectFn } from '@ngneat/effects-ng';
 
 export class TodosEffects extends EffectFn {
 
-  searchTodo = this.createEffectFn((searchTerm$: Observable<string>) => {
-    return searchTerm$.pipe(
+  searchTodo = this.createEffectFn((searchTerm$: Observable<string>) => 
+    searchTerm$.pipe(
       debounceTime(300),
       switchMap((searchTerm) => fetchTodos({ searchTerm })),
     );
-  });
+  );
 }
 ```
 
