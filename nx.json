@@ -26,21 +26,5 @@
       }
     ]
   },
-  "projects": {
-    "effects": {
-      "tags": []
-    },
-    "effects-ng": {
-      "tags": []
-    },
-    "hooks": {
-      "tags": []
-    },
-    "ng-web": {
-      "tags": []
-    },
-    "react-web": {
-      "tags": []
-    }
-  }
+  "projects": {}
 }

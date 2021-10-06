@@ -10,28 +10,16 @@
     "importHelpers": true,
     "target": "ES2020",
     "module": "esnext",
-    "lib": [
-      "es2017",
-      "dom"
-    ],
+    "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "noImplicitAny": false,
     "baseUrl": ".",
     "paths": {
-      "@ngneat/effect-hooks": [
-        "libs/hooks/src/index.ts"
-      ],
-      "@ngneat/effects": [
-        "libs/effects/src/index.ts"
-      ],
-      "@ngneat/effects-ng": [
-        "libs/effects-ng/src/index.ts"
-      ]
+      "@ngneat/effect-hooks": ["libs/hooks/src/index.ts"],
+      "@ngneat/effects": ["libs/effects/src/index.ts"],
+      "@ngneat/effects-ng": ["libs/effects-ng/src/index.ts"]
     }
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }

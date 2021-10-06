@@ -1,0 +1,45 @@
+{
+  "projectType": "library",
+  "root": "libs/effects-ng",
+  "sourceRoot": "libs/effects-ng/src",
+  "prefix": "ngneat",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/effects-ng"],
+      "options": {
+        "project": "libs/effects-ng/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/effects-ng/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/effects-ng/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/effects-ng"],
+      "options": {
+        "jestConfig": "libs/effects-ng/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/effects-ng/src/**/*.ts",
+          "libs/effects-ng/src/**/*.html"
+        ]
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version"
+    }
+  },
+  "tags": []
+}
