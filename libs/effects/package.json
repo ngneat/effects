@@ -1,6 +1,6 @@
 {
   "name": "@ngneat/effects",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0-beta.1",
   "description": "A framework-agnostic RxJS effects implementation",
   "publishConfig": {
     "access": "public"
@@ -32,8 +32,5 @@
     "rxjs": "*",
     "ts-action": "11.0.0",
     "ts-action-operators": "9.1.2"
-  },
-  "peerDependencies": {
-    "rxjs": "*"
   }
 }
