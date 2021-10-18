@@ -1,4 +1,5 @@
-import { map, OperatorFunction } from 'rxjs';
+import { OperatorFunction } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Action } from './actions.types';
 
 export function toPayload<T extends Action>(): OperatorFunction<T, Omit<T, 'type'>> {

@@ -1,4 +1,5 @@
-import { MonoTypeOperatorFunction, Observable, Subject, takeUntil } from "rxjs";
+import { MonoTypeOperatorFunction, Observable, Subject } from "rxjs";
+import { takeUntil } from 'rxjs/operators';
 import { useRef, useMemo, useEffect } from 'react';
 
 export function useEffectFn<R extends Effect$[]>(effects: R): ReturnTypes<R>;
