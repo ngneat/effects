@@ -15,3 +15,4 @@ export { actionsFactory } from './lib/actions.factory';
 export { toPayload } from './lib/to-payload.operator';
 export { isEffect } from './lib/utils';
 export { createEffectFn } from './lib/effect-fn';
+export { tapResult } from './lib/tap-result';
