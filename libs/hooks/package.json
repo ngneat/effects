@@ -1,6 +1,6 @@
 {
   "name": "@ngneat/effects-hooks",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0",
   "description": "A framework-agnostic RxJS effects implementation",
   "publishConfig": {
     "access": "public"
