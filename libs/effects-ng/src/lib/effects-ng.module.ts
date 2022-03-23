@@ -30,7 +30,7 @@ export class EffectsNgModule {
       providers: [
         {
           provide: Actions,
-          useValue: actions
+          useValue: config?.customActionStream || actions
         },
         {
           provide: EFFECTS_MANAGER,

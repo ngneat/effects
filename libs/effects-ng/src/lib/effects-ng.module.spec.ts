@@ -1,10 +1,10 @@
 import { Component, Injectable }      from '@angular/core';
 import { TestBed }                    from '@angular/core/testing';
-import { EffectsNgModule }            from './effects-ng.module';
-import { ofType }                     from 'ts-action-operators';
-import { tap }                        from 'rxjs';
-import { Actions }                    from './actions';
 import { createAction, createEffect } from '@ngneat/effects';
+import { tap }                        from 'rxjs';
+import { ofType }                     from 'ts-action-operators';
+import { Actions }                    from './actions';
+import { EffectsNgModule }            from './effects-ng.module';
 import { EFFECTS_PROVIDERS }          from './tokens';
 
 const spy = jest.fn();
@@ -71,6 +71,25 @@ describe('Effects ng module', () => {
     TestBed.inject(TodoComponent);
 
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should use a custom action stream', (done) => {
+    const customActionStream = new Actions();
+
+    TestBed.configureTestingModule({
+      imports: [
+        EffectsNgModule.forRoot([EffectsOne], { customActionStream })
+      ]
+    });
+
+    customActionStream.pipe(
+      ofType(loadTodos)
+    ).subscribe(todos => {
+      expect(todos).toBeDefined();
+      done();
+    });
+    customActionStream.dispatch(loadTodos());
+
   });
 
 });
