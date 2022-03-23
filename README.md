@@ -37,7 +37,7 @@ export interface Todo {
   name: string;
 }
 
-export const addTodo = createAction('[Todos] Add Todo', props < { title: string });
+export const addTodo = createAction('[Todos] Add Todo', props<{ title: string }>());
 
 // Ee recommend using the actions factory to prefix each action 
 // for better readability and debug purposes when using redux dev tools
@@ -224,11 +224,7 @@ import { useEffectFn } from '@ngneat/effects-hooks';
 function SearchComponent() {
   const searchTodo = useEffectFn(searchTodoEffect);
 
-  return <input onChange = {({ target: { value } })
-=>
-  searchTodo(value)
-}
-  />
+  return <input onChange = {({ target: { value } }) => searchTodo(value) }/>
 }
 ```
 
@@ -242,8 +238,7 @@ function FooComponent() {
     addTodoEffect, updateTodoEffect, deleteTodoEffect
   ]);
 
-  return
-...
+  return ...
 }
 ```
 
@@ -258,12 +253,12 @@ import { EffectFn } from '@ngneat/effects-ng';
 
 export class TodosEffects extends EffectFn {
 
-  searchTodo = this.createEffectFn((searchTerm$: Observable<string>) =>
+  searchTodo = this.createEffectFn((searchTerm$: Observable<string>) => 
     searchTerm$.pipe(
       debounceTime(300),
       switchMap((searchTerm) => fetchTodos({ searchTerm })),
     );
-);
+  );
 }
 ```
 
