@@ -14,7 +14,7 @@
 ![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e5079.svg?style=flat-square]https://github.com/semantic-release/semantic-release)
 ![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg?style=flat-square]https://github.com/prettier/prettier)
 
-👉  Play with the code on [stackblitz](https://stackblitz.com/edit/react-ts-phemyx?devtoolsheight=50&file=index.tsx)
+👉 Play with the code on [stackblitz](https://stackblitz.com/edit/react-ts-phemyx?devtoolsheight=50&file=index.tsx)
 
 # Effects
 
@@ -37,7 +37,7 @@ export interface Todo {
   name: string;
 }
 
-export const addTodo = createAction('[Todos] Add Todo', props<{ title: string });
+export const addTodo = createAction('[Todos] Add Todo', props<{ title: string }>());
 
 // Ee recommend using the actions factory to prefix each action 
 // for better readability and debug purposes when using redux dev tools
@@ -104,7 +104,7 @@ First, install the package: `npm i @ngneat/effects-ng`.
 Next, create the `effect` provider:
 
 ```ts
-import { createEffect }  from '@ngneat/effects';
+import { createEffect } from '@ngneat/effects';
 
 @Injectable({ providedIn: 'root' })
 export class TodosEffects {
@@ -167,6 +167,31 @@ export class AppComponent {
     this.actions.dispatch(loadTodos());
   }
 }
+```
+
+### Testing
+
+In order to test effect classes and using the actions stream from parameter you can substitute the action stream by a
+custom created action stream. It's recommended to only use this feature for testing purposes.
+
+```ts
+describe("Effect test", () => {
+  // use a custom action stream to replace the stream before each test
+  let customActionsStream: Actions;
+
+  beforeEach(() => {
+    customActionsStream = new Actions();
+
+    TestBed.configureTestingModule({
+      imports: [
+        EffectsNgModule.forRoot(
+          [EffectsOne],
+          { customActionsStream }
+        )
+      ]
+    });
+  })
+})
 ```
 
 # Effect Functions
