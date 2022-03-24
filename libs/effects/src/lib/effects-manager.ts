@@ -7,7 +7,7 @@ import { Action }                            from './actions.types';
 
 export interface EffectsConfig {
   dispatchByDefault?: boolean;
-  customActionStream?: Actions
+  customActionsStream?: Actions
 }
 
 export class EffectsManager {

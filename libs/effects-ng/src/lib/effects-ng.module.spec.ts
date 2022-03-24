@@ -74,21 +74,21 @@ describe('Effects ng module', () => {
   });
 
   it('should use a custom action stream', (done) => {
-    const customActionStream = new Actions();
+    const customActionsStream = new Actions();
 
     TestBed.configureTestingModule({
       imports: [
-        EffectsNgModule.forRoot([EffectsOne], { customActionStream })
+        EffectsNgModule.forRoot([EffectsOne], { customActionsStream })
       ]
     });
 
-    customActionStream.pipe(
+    customActionsStream.pipe(
       ofType(loadTodos)
     ).subscribe(todos => {
       expect(todos).toBeDefined();
       done();
     });
-    customActionStream.dispatch(loadTodos());
+    customActionsStream.dispatch(loadTodos());
 
   });
 

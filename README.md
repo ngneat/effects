@@ -177,16 +177,16 @@ custom created action stream. It's recommended to only use this feature for test
 ```ts
 describe("Effect test", () => {
   // use a custom action stream to replace the stream before each test
-  let customActionStream: Actions;
+  let customActionsStream: Actions;
 
   beforeEach(() => {
-    customActionStream = new Actions();
+    customActionsStream = new Actions();
 
     TestBed.configureTestingModule({
       imports: [
         EffectsNgModule.forRoot(
           [EffectsOne],
-          { customActionStream }
+          { customActionsStream }
         )
       ]
     });
