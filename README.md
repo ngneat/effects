@@ -39,7 +39,7 @@ export interface Todo {
 
 export const addTodo = createAction('[Todos] Add Todo', props<{ title: string }>());
 
-// Ee recommend using the actions factory to prefix each action 
+// We recommend using the actions factory to prefix each action 
 // for better readability and debug purposes when using redux dev tools
 export const todoActions = actionsFactory('todo');
 
