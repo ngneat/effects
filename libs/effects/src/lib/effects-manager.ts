@@ -1,13 +1,13 @@
 import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil }                         from 'rxjs/operators';
 import { Actions, actions }                  from './actions';
-import { coerceArray }                       from './utils';
-import { Effect, EffectConfig }              from './effects.types';
 import { Action }                            from './actions.types';
+import { Effect, EffectConfig }              from './effects.types';
+import { coerceArray }                       from './utils';
 
 export interface EffectsConfig {
   dispatchByDefault?: boolean;
-  customActionsStream?: Actions
+  customActionsStream?: Actions;
 }
 
 export class EffectsManager {
@@ -40,16 +40,19 @@ export class EffectsManager {
   }
 
   private subscribeEffect(effect: Effect) {
-    const sub = effect.source
-      .pipe(takeUntil(this.destroyEffects$))
-      .subscribe((maybeAction) => {
-        if (
-          effect.config?.dispatch ||
-          (this.config.dispatchByDefault && checkAction(maybeAction))
-        ) {
-          actions.dispatch(maybeAction);
-        }
-      });
+    const source = effect.sourceFn(this.config.customActionsStream || actions);
+
+    const sub = source.pipe(
+      takeUntil(this.destroyEffects$)
+    )
+    .subscribe((maybeAction) => {
+      if (
+        effect.config?.dispatch ||
+        (this.config.dispatchByDefault && checkAction(maybeAction))
+      ) {
+        actions.dispatch(maybeAction);
+      }
+    });
 
     this.effects.set(effect, sub);
   }
@@ -87,7 +90,7 @@ export function createEffect(
   factory: (actions: Actions) => Observable<any>,
   config?: EffectConfig
 ): Effect {
-  return { source: factory(actions), config };
+  return { sourceFn: factory, config };
 }
 
 export function registerEffects(effects: Effect | Effect[]) {

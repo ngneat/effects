@@ -1,15 +1,15 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule }         from '@angular/core';
+import { FormsModule }      from '@angular/forms';
 import { BrowserModule }    from '@angular/platform-browser';
-import { AppComponent }     from './app.component';
 import { RouterModule }     from '@angular/router';
 import { EffectsNgModule }  from '@ngneat/effects-ng';
-import { TestEffects }      from './state/test.effects';
+import { AppComponent }     from './app.component';
 import { EagerComponent }   from './eager/eager.component';
 import { EagerModule }      from './eager/eager.module';
-import { TodoComponent }    from './todo/todo.component';
+import { TestEffects }      from './state/test.effects';
 import { TodoEffects }      from './todo/+state/todo.effects';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule }      from '@angular/forms';
+import { TodoComponent }    from './todo/todo.component';
 
 @NgModule({
   declarations: [AppComponent, TodoComponent],
@@ -30,7 +30,6 @@ import { FormsModule }      from '@angular/forms';
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {
