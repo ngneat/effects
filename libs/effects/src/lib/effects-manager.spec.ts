@@ -1,24 +1,18 @@
-import {
-  createEffect,
-  EffectsManager,
-  initEffects,
-  registerEffects,
-  removeAllEffects,
-  removeEffects,
-} from './effects-manager';
-import { createAction } from '../index';
-import { props } from 'ts-action';
-import { ofType } from 'ts-action-operators';
+import { props }                                                                                        from 'ts-action';
+import { ofType }                                                                                       from 'ts-action-operators';
+import { createAction }                                                                                 from '../index';
+import { actions }                                                                                      from './actions';
+import { createEffect, EffectsManager, initEffects, registerEffects, removeAllEffects, removeEffects, } from './effects-manager';
 
-const actionOne = createAction('Action One');
-const actionTwo = createAction('Action Two', props<{ value: string }>());
+const actionOne   = createAction('Action One');
+const actionTwo   = createAction('Action Two', props<{ value: string }>());
 const actionThree = createAction('Action Three', props<{ value: string }>());
 
-const effectOne = createEffect((actions) => actions.pipe(ofType(actionOne)));
-const effectTwo = createEffect((actions) => actions.pipe(ofType(actionTwo)));
-const effectThree = createEffect((actions) =>
-  actions.pipe(ofType(actionThree))
-);
+const effectOne   = createEffect((actions) => actions.pipe(ofType(actionOne)));
+const effectTwo   = createEffect((actions) => actions.pipe(ofType(actionTwo)));
+const effectThree = createEffect((actions) => actions.pipe(ofType(actionThree)));
+const effectFour  = createEffect((actions) => actions);
+
 const faultyEffect = createEffect(() => ({ faulty: 'test' } as any));
 
 describe('Effects Manager', () => {
@@ -64,8 +58,10 @@ describe('Effects Manager', () => {
   });
 
   it('should subscribe to an effect', () => {
-    const spy = jest.spyOn(effectThree.source, 'subscribe');
-    effectsManager['subscribeEffect'](effectThree);
+    const source = effectFour.sourceFn(actions);
+    const spy    = jest.spyOn(source, 'subscribe');
+
+    effectsManager['subscribeEffect'](effectFour);
 
     expect(spy).toHaveBeenCalled();
   });
