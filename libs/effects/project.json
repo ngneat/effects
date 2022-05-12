@@ -1,10 +1,9 @@
 {
-  "root": "libs/effects",
   "sourceRoot": "libs/effects/src",
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nrwl/web:package",
+      "executor": "@nrwl/web:rollup",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/effects",
@@ -33,7 +32,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/effects"],
       "options": {
-        "jestConfig": "libs/effects/jest.config.js",
+        "jestConfig": "libs/effects/jest.config.ts",
         "passWithNoTests": true
       }
     },

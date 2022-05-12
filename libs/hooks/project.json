@@ -1,10 +1,9 @@
 {
-  "root": "libs/hooks",
   "sourceRoot": "libs/hooks/src",
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nrwl/web:package",
+      "executor": "@nrwl/web:rollup",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/hooks",
@@ -33,7 +32,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/hooks"],
       "options": {
-        "jestConfig": "libs/hooks/jest.config.js",
+        "jestConfig": "libs/hooks/jest.config.ts",
         "passWithNoTests": true
       }
     },

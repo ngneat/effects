@@ -1,6 +1,5 @@
 {
   "projectType": "application",
-  "root": "apps/ng-web",
   "sourceRoot": "apps/ng-web/src",
   "prefix": "effects",
   "targets": {
@@ -83,7 +82,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/ng-web"],
       "options": {
-        "jestConfig": "apps/ng-web/jest.config.js",
+        "jestConfig": "apps/ng-web/jest.config.ts",
         "passWithNoTests": true
       }
     }

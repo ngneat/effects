@@ -1,10 +1,9 @@
 {
-  "root": "apps/react-web",
   "sourceRoot": "apps/react-web/src",
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/web:build",
+      "executor": "@nrwl/web:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/react-web",
@@ -42,8 +41,15 @@
               "maximumError": "1mb"
             }
           ]
+        },
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
         }
-      }
+      },
+      "defaultConfiguration": "production"
     },
     "serve": {
       "executor": "@nrwl/web:dev-server",
@@ -55,8 +61,12 @@
         "production": {
           "buildTarget": "react-web:build:production",
           "hmr": false
+        },
+        "development": {
+          "buildTarget": "react-web:build:development"
         }
-      }
+      },
+      "defaultConfiguration": "development"
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
@@ -69,7 +79,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/react-web"],
       "options": {
-        "jestConfig": "apps/react-web/jest.config.js",
+        "jestConfig": "apps/react-web/jest.config.ts",
         "passWithNoTests": true
       }
     }
