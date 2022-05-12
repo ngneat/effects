@@ -1,4 +1,4 @@
-import { Link, Route } from 'react-router-dom';
+import { Link, Route, Routes } from 'react-router-dom';
 import { TodosPage } from './todos-page/todos-page';
 
 export function App() {
@@ -14,17 +14,20 @@ export function App() {
           </li>
         </ul>
       </div>
-      <Route
-        path="/"
-        exact
-        render={() => (
-          <div>
-            This is the generated root route.{' '}
-            <Link to="/todos">Click here for todos.</Link>
-          </div>
-        )}
-      />
-      <Route path="/todos" exact component={TodosPage} />
+      <Routes>
+
+        <Route
+          path="/"
+          element={
+            <div>
+              This is the generated root route.{' '}
+              <Link to="/todos">Click here for todos.</Link>
+            </div>
+          }
+        />
+        <Route path="/todos" element={<TodosPage />} />
+      </Routes>
+
     </>
   );
 }
