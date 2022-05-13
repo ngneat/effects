@@ -5,6 +5,9 @@ import { render } from '@testing-library/react';
 import { useEffects } from '..';
 import { useEffect } from 'react';
 
+globalThis.IS_REACT_ACT_ENVIRONMENT = true;
+
+
 describe('useEffects', () => {
   const spy = jest.fn();
   const destroySpy = jest.fn();

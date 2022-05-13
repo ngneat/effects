@@ -214,6 +214,8 @@ an `Observable`.
 
 ### Use with React
 
+Note: The current implementation doesn't work with React v18 in **strict mode**.
+
 First, install the package: `npm i @ngneat/effects-hook`.
 
 We can register the effect in our component, and call it when we need:

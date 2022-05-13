@@ -1,20 +1,20 @@
 import { MonoTypeOperatorFunction, Observable, Subject } from "rxjs";
 import { takeUntil } from 'rxjs/operators';
-import { useRef, useMemo, useEffect } from 'react';
+import { useMemo, useEffect } from 'react';
 
 export function useEffectFn<R extends Effect$[]>(effects: R): ReturnTypes<R>;
 export function useEffectFn<R extends Effect$>(effect: R): ReturnType<R>;
 export function useEffectFn(effects: Effect$[] | Effect$): any {
   const { destroyed } = useUntilDestroyed();
-  const result = useRef<any>([]);
 
-  useEffect(() => {
+  const result = useMemo(() => {
     const toArray = Array.isArray(effects) ? effects : [effects];
 
-    toArray.forEach((e, i) => result.current[i] = e(destroyed));
+    return toArray.map(e => e(destroyed));
   }, [destroyed, effects]);
 
-  return Array.isArray(effects) ? result.current as unknown : result.current[0];
+
+  return Array.isArray(effects) ? result : result[0];
 }
 
 
