@@ -46,7 +46,7 @@ export class EffectsManager {
       .pipe(takeUntil(this.destroyEffects$))
       .subscribe((maybeAction) => {
         if (
-          effect.config?.dispatch ||
+          effect.config?.dispatch ??
           (this.config.dispatchByDefault && checkAction(maybeAction))
         ) {
           actions.dispatch(maybeAction);

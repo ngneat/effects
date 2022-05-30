@@ -1,3 +1,4 @@
+import { map } from 'rxjs';
 import { props } from 'ts-action';
 import { ofType } from 'ts-action-operators';
 import { createAction } from '../index';
@@ -14,6 +15,7 @@ import {
 const actionOne = createAction('Action One');
 const actionTwo = createAction('Action Two', props<{ value: string }>());
 const actionThree = createAction('Action Three', props<{ value: string }>());
+const actionFour = createAction('Action Four');
 
 const effectOne = createEffect((actions) => actions.pipe(ofType(actionOne)));
 const effectTwo = createEffect((actions) => actions.pipe(ofType(actionTwo)));
@@ -21,6 +23,14 @@ const effectThree = createEffect((actions) =>
   actions.pipe(ofType(actionThree))
 );
 const effectFour = createEffect((actions) => actions);
+const effectFive = createEffect(
+  (actions) =>
+    actions.pipe(
+      ofType(actionOne),
+      map(() => actionFour())
+    ),
+  { dispatch: false }
+);
 
 const faultyEffect = createEffect(() => ({ faulty: 'test' } as any));
 
@@ -93,5 +103,17 @@ describe('Effects Manager', () => {
     } catch (err) {
       expect(err).toBeInstanceOf(Error);
     }
+  });
+
+  it('should not dispatch an action from an effect when dispatchByDefault is set to true and dispatch is set to false', () => {
+    // have to create a new EffectsManager bypassing initEffects() to get an instance with a different config
+    effectsManager = new EffectsManager({ dispatchByDefault: true });
+    effectsManager.registerEffects([effectFive]);
+
+    const spy = jest.spyOn(actions, 'dispatch');
+
+    actions.dispatch(actionOne());
+
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });
