@@ -9,18 +9,19 @@ describe('useEffectFn', () => {
   const destroySpy = jest.fn();
 
   const searchTodoEffect = createEffectFn((searchTerm$: Observable<string>) => {
-    return searchTerm$.pipe(
-      finalize(destroySpy),
-      tap(spy)
-    );
+    return searchTerm$.pipe(finalize(destroySpy), tap(spy));
   });
 
   function SearchComponent() {
     const searchTodo = useEffectFn(searchTodoEffect);
 
-    return <input data-testid="input" onChange={({ target: { value } }) => searchTodo(value)} />
+    return (
+      <input
+        data-testid="input"
+        onChange={({ target: { value } }) => searchTodo(value)}
+      />
+    );
   }
-
 
   it('should register/unregister effect function', () => {
     const { getByTestId, unmount } = render(<SearchComponent />);
@@ -38,6 +39,5 @@ describe('useEffectFn', () => {
     unmount();
 
     expect(destroySpy).toHaveBeenCalledTimes(1);
-
-  })
-})
+  });
+});

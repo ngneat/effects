@@ -14,12 +14,7 @@ module.exports = {
   maxMessageLength: 64,
   minMessageLength: 3,
   questions: ['type', 'scope', 'subject', 'body', 'breaking', 'issues'],
-  scopes: [
-    'effects',
-    'effects-ng',
-    'effects-hooks',
-    'general',
-  ],
+  scopes: ['effects', 'effects-ng', 'effects-hooks', 'general'],
   types: {
     chore: {
       description: 'Build process or auxiliary tool changes',

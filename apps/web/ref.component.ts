@@ -1,4 +1,4 @@
-import { map, tap }  from 'rxjs';
+import { map, tap } from 'rxjs';
 import { Component } from '@angular/core';
 import {
   actions,
@@ -10,17 +10,13 @@ import {
   props,
   registerEffects,
   removeAllEffects,
-  toPayload
-}                    from '@ngneat/effects';
+  toPayload,
+} from '@ngneat/effects';
 
 @Component({
   selector: 'effects-root',
   styleUrls: ['./app.component.scss'],
-  template: `
-    <div>
-
-    </div>
-  `
+  template: ` <div></div> `,
 })
 export class AppComponent {
   title = 'web sample';
@@ -33,7 +29,7 @@ export class AppComponent {
     const todoActionOne = todoActions.create('One');
     const todoActionTwo = todoActions.create('Two', props<{ test: string }>());
 
-    const welcomeAction        = createAction('Welcome');
+    const welcomeAction = createAction('Welcome');
     const welcomeActionSuccess = createAction(
       'Welcome Success',
       props<{ test: string }>()
@@ -57,10 +53,10 @@ export class AppComponent {
       )
     );
 
-    const todoEffectOne = createEffect(actions =>
+    const todoEffectOne = createEffect((actions) =>
       actions.pipe(
         ofType(todoActionOne),
-        tap(action => console.log('todo action on works -', action.type))
+        tap((action) => console.log('todo action on works -', action.type))
       )
     );
 
@@ -79,6 +75,5 @@ export class AppComponent {
     removeAllEffects();
 
     actions.dispatch(welcomeAction());
-
   }
 }

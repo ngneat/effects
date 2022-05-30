@@ -15,7 +15,6 @@ export function App() {
         </ul>
       </div>
       <Routes>
-
         <Route
           path="/"
           element={
@@ -27,7 +26,6 @@ export function App() {
         />
         <Route path="/todos" element={<TodosPage />} />
       </Routes>
-
     </>
   );
 }

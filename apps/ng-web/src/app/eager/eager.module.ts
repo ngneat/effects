@@ -5,10 +5,7 @@ import { EagerEffects } from './state/eager.effects';
 
 @NgModule({
   declarations: [EagerComponent],
-  imports: [
-    EffectsNgModule.forFeature([EagerEffects])
-  ],
-  exports: [EagerComponent]
+  imports: [EffectsNgModule.forFeature([EagerEffects])],
+  exports: [EagerComponent],
 })
-export class EagerModule {
-}
+export class EagerModule {}

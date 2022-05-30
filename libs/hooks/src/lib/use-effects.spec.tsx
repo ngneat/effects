@@ -1,12 +1,16 @@
-
-import { createAction, createEffect, dispatch, initEffects, ofType } from '@ngneat/effects';
+import {
+  createAction,
+  createEffect,
+  dispatch,
+  initEffects,
+  ofType,
+} from '@ngneat/effects';
 import { finalize, tap } from 'rxjs/operators';
 import { render } from '@testing-library/react';
 import { useEffects } from '..';
 import { useEffect } from 'react';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
-
 
 describe('useEffects', () => {
   const spy = jest.fn();
@@ -17,23 +21,18 @@ describe('useEffects', () => {
   const loadTodos = createAction('[Todos] Load Todos');
 
   const loadTodos$ = createEffect((actions) =>
-    actions.pipe(
-      ofType(loadTodos),
-      tap(spy),
-      finalize(destroySpy)
-    )
+    actions.pipe(ofType(loadTodos), tap(spy), finalize(destroySpy))
   );
 
   function SearchComponent() {
     useEffects(loadTodos$);
 
     useEffect(() => {
-      dispatch(loadTodos())
-    }, [])
+      dispatch(loadTodos());
+    }, []);
 
-    return <>Test</>
+    return <>Test</>;
   }
-
 
   it('should register/unregister effects', () => {
     const { unmount } = render(<SearchComponent />);
@@ -45,4 +44,4 @@ describe('useEffects', () => {
 
     expect(destroySpy).toHaveBeenCalledTimes(1);
   });
-})
+});

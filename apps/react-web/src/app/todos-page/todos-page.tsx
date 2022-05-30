@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
-import { addTodo, addTodo$, loadTodos, loadTodos$, searchTodoEffect } from './todos.effects';
+import {
+  addTodo,
+  addTodo$,
+  loadTodos,
+  loadTodos$,
+  searchTodoEffect,
+} from './todos.effects';
 import { loading$, todos$ } from './todos.repository';
 import { dispatch } from '@ngneat/effects';
 import { useEffectFn, useEffects } from '@ngneat/effect-hooks';
@@ -8,7 +14,7 @@ import { useObservable } from '@ngneat/use-observable';
 function SearchComponent() {
   const searchTodo = useEffectFn(searchTodoEffect);
 
-  return <input onChange={({ target: { value } }) => searchTodo(value)} />
+  return <input onChange={({ target: { value } }) => searchTodo(value)} />;
 }
 
 export function TodosPage() {
@@ -24,7 +30,7 @@ export function TodosPage() {
     <div>
       <h1>Welcome to TodosPage!</h1>
 
-      <button onClick={() => setShow(show => !show)}>Toggle</button>
+      <button onClick={() => setShow((show) => !show)}>Toggle</button>
       {show && <SearchComponent />}
 
       <button
