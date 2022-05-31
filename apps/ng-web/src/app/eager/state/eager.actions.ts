@@ -1,5 +1,5 @@
 import { actionsFactory } from '@ngneat/effects';
-import { props }          from 'ts-action';
+import { props } from 'ts-action';
 
 interface EagerProps {
   id: string;

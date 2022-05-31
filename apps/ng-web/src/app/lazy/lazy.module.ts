@@ -10,11 +10,10 @@ import { LazyEffects } from './state/lazy.effects';
     RouterModule.forChild([
       {
         path: '',
-        component: LazyComponent
-      }
+        component: LazyComponent,
+      },
     ]),
-    EffectsNgModule.forFeature([LazyEffects])
-  ]
+    EffectsNgModule.forFeature([LazyEffects]),
+  ],
 })
-export class LazyModule {
-}
+export class LazyModule {}

@@ -1,11 +1,11 @@
-import { Component, Injectable }      from '@angular/core';
-import { TestBed }                    from '@angular/core/testing';
+import { Component, Injectable } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { createAction, createEffect } from '@ngneat/effects';
-import { tap }                        from 'rxjs';
-import { ofType }                     from 'ts-action-operators';
-import { Actions }                    from './actions';
-import { EffectsNgModule }            from './effects-ng.module';
-import { EFFECTS_PROVIDERS }          from './tokens';
+import { tap } from 'rxjs';
+import { ofType } from 'ts-action-operators';
+import { Actions } from './actions';
+import { EffectsNgModule } from './effects-ng.module';
+import { EFFECTS_PROVIDERS } from './tokens';
 
 const spy = jest.fn();
 
@@ -13,34 +13,28 @@ const loadTodos = createAction('[Todos] Load Todos');
 
 @Injectable()
 class EffectsOne {
-  loadTodos$ = createEffect((actions) => actions.pipe(
-    ofType(loadTodos),
-    tap(spy)
-  ));
+  loadTodos$ = createEffect((actions) =>
+    actions.pipe(ofType(loadTodos), tap(spy))
+  );
 }
 
 @Injectable()
-class EffectsTwo {
-}
+class EffectsTwo {}
 
 @Injectable()
-class EffectsThree {
-}
+class EffectsThree {}
 
 @Component({ template: '' })
 class TodoComponent {
-  constructor(
-    private actions: Actions
-  ) {
+  constructor(private actions: Actions) {
     this.actions.dispatch(loadTodos());
   }
 }
 
 describe('Effects ng module', () => {
-
   it('should provide effects one using forRoot', () => {
     TestBed.configureTestingModule({
-      imports: [EffectsNgModule.forRoot([EffectsOne])]
+      imports: [EffectsNgModule.forRoot([EffectsOne])],
     });
 
     const effectsOneInstance = TestBed.inject(EffectsOne);
@@ -51,8 +45,8 @@ describe('Effects ng module', () => {
     TestBed.configureTestingModule({
       imports: [
         EffectsNgModule.forRoot([EffectsOne]),
-        EffectsNgModule.forFeature([EffectsTwo, EffectsThree])
-      ]
+        EffectsNgModule.forFeature([EffectsTwo, EffectsThree]),
+      ],
     });
 
     const effectsProviders = TestBed.inject<any>(EFFECTS_PROVIDERS);
@@ -64,9 +58,7 @@ describe('Effects ng module', () => {
   it('should trigger effects on action dispatch', () => {
     TestBed.configureTestingModule({
       providers: [TodoComponent],
-      imports: [
-        EffectsNgModule.forRoot([EffectsOne])
-      ]
+      imports: [EffectsNgModule.forRoot([EffectsOne])],
     });
     TestBed.inject(TodoComponent);
 
@@ -77,19 +69,13 @@ describe('Effects ng module', () => {
     const customActionsStream = new Actions();
 
     TestBed.configureTestingModule({
-      imports: [
-        EffectsNgModule.forRoot([EffectsOne], { customActionsStream })
-      ]
+      imports: [EffectsNgModule.forRoot([EffectsOne], { customActionsStream })],
     });
 
-    customActionsStream.pipe(
-      ofType(loadTodos)
-    ).subscribe(todos => {
+    customActionsStream.pipe(ofType(loadTodos)).subscribe((todos) => {
       expect(todos).toBeDefined();
       done();
     });
     customActionsStream.dispatch(loadTodos());
-
   });
-
 });

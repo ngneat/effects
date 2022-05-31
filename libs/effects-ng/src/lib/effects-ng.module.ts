@@ -1,7 +1,21 @@
-import { Inject, Injector, ModuleWithProviders, NgModule, Type }                                  from '@angular/core';
-import { actions, Effect, EffectsConfig, EffectsManager, initEffects, isEffect, registerEffects } from '@ngneat/effects';
-import { Actions }                                                                                from './actions';
-import { EFFECTS_MANAGER, EFFECTS_PROVIDERS }                                                     from './tokens';
+import {
+  Inject,
+  Injector,
+  ModuleWithProviders,
+  NgModule,
+  Type,
+} from '@angular/core';
+import {
+  actions,
+  Effect,
+  EffectsConfig,
+  EffectsManager,
+  initEffects,
+  isEffect,
+  registerEffects,
+} from '@ngneat/effects';
+import { Actions } from './actions';
+import { EFFECTS_MANAGER, EFFECTS_PROVIDERS } from './tokens';
 
 @NgModule()
 export class EffectsNgModule {
@@ -12,9 +26,9 @@ export class EffectsNgModule {
   ) {
     const flattenProviders = flatten(providers);
 
-    flattenProviders.forEach(provider => {
+    flattenProviders.forEach((provider) => {
       const instance = injector.get(provider);
-      const effects  = Object.values(instance).filter((v: any) => isEffect(v));
+      const effects = Object.values(instance).filter((v: any) => isEffect(v));
 
       registerEffects(effects as Effect[]);
     });
@@ -24,36 +38,37 @@ export class EffectsNgModule {
     providers: Type<any>[],
     config?: EffectsConfig
   ): ModuleWithProviders<EffectsNgModule> {
-
     return {
       ngModule: EffectsNgModule,
       providers: [
         {
           provide: Actions,
-          useValue: config?.customActionsStream || actions
+          useValue: config?.customActionsStream || actions,
         },
         {
           provide: EFFECTS_MANAGER,
-          useFactory: () => initEffects(config)
+          useFactory: () => initEffects(config),
         },
         ...providers,
         {
           provide: EFFECTS_PROVIDERS,
           multi: true,
-          useValue: providers
-        }
-      ]
+          useValue: providers,
+        },
+      ],
     };
   }
 
   static forFeature(
-    providers: (Type<any>)[]
+    providers: Type<any>[]
   ): ModuleWithProviders<EffectsNgModule> {
     return EffectsNgModule.forRoot(providers);
   }
-
 }
 
 function flatten<T>(arr: T[]): T[] {
-  return arr.reduce((acc, cur) => acc.concat(Array.isArray(cur) ? flatten(cur) : cur as any), []);
-};
+  return arr.reduce(
+    (acc, cur) => acc.concat(Array.isArray(cur) ? flatten(cur) : (cur as any)),
+    []
+  );
+}

@@ -1,5 +1,5 @@
 import { Subject } from 'rxjs';
-import { Action }  from './actions.types';
+import { Action } from './actions.types';
 
 export class Actions extends Subject<Action> {
   dispatch(value: Action): void {
@@ -7,6 +7,6 @@ export class Actions extends Subject<Action> {
   }
 }
 
-export const actions           = new Actions();
-export const dispatch          = actions.dispatch.bind(actions);
+export const actions = new Actions();
+export const dispatch = actions.dispatch.bind(actions);
 export const actionsDispatcher = actions.asObservable();

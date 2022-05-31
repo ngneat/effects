@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { Actions }    from './actions';
+import { Actions } from './actions';
 
 export interface EffectConfig {
   dispatch: boolean;

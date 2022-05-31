@@ -1,6 +1,6 @@
-import { Injectable, OnDestroy } from "@angular/core";
-import { createEffectFn } from "@ngneat/effects";
-import { Observable, Subject } from "rxjs";
+import { Injectable, OnDestroy } from '@angular/core';
+import { createEffectFn } from '@ngneat/effects';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable()
 export class EffectFn implements OnDestroy {

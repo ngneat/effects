@@ -4,17 +4,10 @@ import { lazyActionTwo } from './state/lazy.actions';
 
 @Component({
   selector: 'effects-root',
-  template: `
-    <div>
-      Lazy component loaded
-    </div>
-  `
+  template: ` <div>Lazy component loaded</div> `,
 })
 export class LazyComponent {
-
-  constructor(
-    private actions: Actions
-  ) {
+  constructor(private actions: Actions) {
     this.actions.dispatch(lazyActionTwo({ lazy: 'lazy action payload' }));
   }
 }

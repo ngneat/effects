@@ -1,9 +1,9 @@
 import { Observable, Subject, Subscription } from 'rxjs';
-import { takeUntil }                         from 'rxjs/operators';
-import { Actions, actions }                  from './actions';
-import { Action }                            from './actions.types';
-import { Effect, EffectConfig }              from './effects.types';
-import { coerceArray }                       from './utils';
+import { takeUntil } from 'rxjs/operators';
+import { Actions, actions } from './actions';
+import { Action } from './actions.types';
+import { Effect, EffectConfig } from './effects.types';
+import { coerceArray } from './utils';
 
 export interface EffectsConfig {
   dispatchByDefault?: boolean;
@@ -11,14 +11,14 @@ export interface EffectsConfig {
 }
 
 export class EffectsManager {
-  private effects         = new WeakMap<Effect, Subscription>();
+  private effects = new WeakMap<Effect, Subscription>();
   private destroyEffects$ = new Subject<void>();
   private config: EffectsConfig;
 
   constructor(config?: EffectsConfig) {
     this.config = {
       dispatchByDefault: false,
-      ...config
+      ...config,
     };
   }
 
@@ -42,17 +42,16 @@ export class EffectsManager {
   private subscribeEffect(effect: Effect) {
     const source = effect.sourceFn(this.config.customActionsStream || actions);
 
-    const sub = source.pipe(
-      takeUntil(this.destroyEffects$)
-    )
-    .subscribe((maybeAction) => {
-      if (
-        effect.config?.dispatch ||
-        (this.config.dispatchByDefault && checkAction(maybeAction))
-      ) {
-        actions.dispatch(maybeAction);
-      }
-    });
+    const sub = source
+      .pipe(takeUntil(this.destroyEffects$))
+      .subscribe((maybeAction) => {
+        if (
+          effect.config?.dispatch ||
+          (this.config.dispatchByDefault && checkAction(maybeAction))
+        ) {
+          actions.dispatch(maybeAction);
+        }
+      });
 
     this.effects.set(effect, sub);
   }
@@ -78,7 +77,6 @@ function checkAction(
 export let effectsManager: EffectsManager;
 
 export function initEffects(config?: EffectsConfig) {
-
   if (effectsManager) {
     return effectsManager;
   }

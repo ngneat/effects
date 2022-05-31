@@ -1,40 +1,36 @@
-import { Component, OnInit }  from '@angular/core';
-import { Actions }            from '@ngneat/effects-ng';
+import { Component, OnInit } from '@angular/core';
+import { Actions } from '@ngneat/effects-ng';
 import { addTodo, loadTodos } from './+state/actions';
-import { todos$ }             from './+state/todos.repository';
-import { TodoEffects }        from './+state/todo.effects';
+import { todos$ } from './+state/todos.repository';
+import { TodoEffects } from './+state/todo.effects';
 
 @Component({
   selector: 'effects-todo',
   template: `
     <h1>Todos</h1>
 
-    <div class='add-todo'>
+    <div class="add-todo">
       <h3>Add todo</h3>
-      <input type='text' #addTodo>
-      <button (click)='onClickAddTodo(addTodo.value)'>Add todo</button>
+      <input type="text" #addTodo />
+      <button (click)="onClickAddTodo(addTodo.value)">Add todo</button>
     </div>
 
-    <div class='search-todo'>
+    <div class="search-todo">
       <h3>Search todo</h3>
-      <input type='text' #searchTodo>
-      <button (click)='onClickSearchTodo(searchTodo.value)'>Search todo</button>
+      <input type="text" #searchTodo />
+      <button (click)="onClickSearchTodo(searchTodo.value)">Search todo</button>
     </div>
 
     <ul>
-      <li *ngFor='let todo of (todos | async)'>{{todo.title}}</li>
+      <li *ngFor="let todo of todos | async">{{ todo.title }}</li>
     </ul>
-  `
+  `,
 })
 export class TodoComponent implements OnInit {
   addTodo = '';
-  todos   = todos$;
+  todos = todos$;
 
-  constructor(
-    private actions: Actions,
-    private todoEffects: TodoEffects
-  ) {
-  }
+  constructor(private actions: Actions, private todoEffects: TodoEffects) {}
 
   ngOnInit() {
     this.actions.dispatch(loadTodos());

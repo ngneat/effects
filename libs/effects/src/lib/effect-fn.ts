@@ -1,8 +1,8 @@
-import { Observable, Subject } from "rxjs";
+import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 export function createEffectFn<T>(
-  factoryFn: (source: Observable<T>) => Observable<unknown>,
+  factoryFn: (source: Observable<T>) => Observable<unknown>
 ) {
   return function (destroyed$: Observable<boolean>) {
     const subject = new Subject<T>();
@@ -12,5 +12,5 @@ export function createEffectFn<T>(
     return function (value: T) {
       subject.next(value);
     };
-  }
+  };
 }

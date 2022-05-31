@@ -4,9 +4,7 @@
   "lib": {
     "entryFile": "src/index.ts"
   },
-  "assets": [
-    "../../README.md"
-  ],
+  "assets": ["../../README.md"],
   "allowedNonPeerDependencies": [
     "rxjs",
     "@ngneat/effects",

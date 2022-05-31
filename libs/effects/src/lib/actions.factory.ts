@@ -1,7 +1,7 @@
 import { createAction } from '../index';
 import { capitalize } from './utils';
 
-type CreateAction = typeof createAction
+type CreateAction = typeof createAction;
 
 export function actionsFactory(storeName: string): { create: CreateAction } {
   return {
@@ -9,7 +9,6 @@ export function actionsFactory(storeName: string): { create: CreateAction } {
       const modifiedStoreName = capitalize(storeName);
 
       return createAction(`[${modifiedStoreName}] ${type}`, config);
-    }) as CreateAction
+    }) as CreateAction,
   };
 }
-

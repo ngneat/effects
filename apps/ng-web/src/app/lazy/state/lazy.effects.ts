@@ -8,15 +8,14 @@ import { LazyService } from './lazy.service';
 
 @Injectable()
 export class LazyEffects {
-
-  constructor(
-    private service: LazyService
-  ) {
-    console.log("construct", service)
+  constructor(private service: LazyService) {
+    console.log('construct', service);
   }
 
-  lazyEffectOne$ = createEffect(actions => actions.pipe(
-    ofType(lazyActionTwo),
-    tap((payload) => console.log('effect', payload))
-  ));
+  lazyEffectOne$ = createEffect((actions) =>
+    actions.pipe(
+      ofType(lazyActionTwo),
+      tap((payload) => console.log('effect', payload))
+    )
+  );
 }
