@@ -46,7 +46,7 @@ export class EffectsManager {
       .pipe(takeUntil(this.destroyEffects$))
       .subscribe((maybeAction) => {
         if (
-          effect.config?.dispatch ||
+          effect.config?.dispatch ??
           (this.config.dispatchByDefault && checkAction(maybeAction))
         ) {
           actions.dispatch(maybeAction);
@@ -63,12 +63,15 @@ export class EffectsManager {
   }
 }
 
-function checkAction(
-  action: Action | any
-): action is Action & Record<'type', any> {
-  if (action.type) {
+function checkAction(action: unknown): action is Action {
+  if (
+    typeof action === 'object' &&
+    action !== null &&
+    (action as Action).type
+  ) {
     return true;
   }
+
   throw new TypeError(
     'Make sure to provide a valid action type or set the option {dispatch: false}'
   );
