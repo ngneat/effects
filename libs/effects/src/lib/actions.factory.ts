@@ -1,4 +1,4 @@
-import { createAction } from '../index';
+import { action as createAction } from 'ts-action';
 import { capitalize } from './utils';
 
 type CreateAction = typeof createAction;
