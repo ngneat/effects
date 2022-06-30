@@ -1,6 +1,6 @@
 import { MonoTypeOperatorFunction, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { useMemo, useEffect } from 'react';
+import { useMemo, useInsertionEffect } from 'react';
 
 export function useEffectFn<R extends Effect$[]>(effects: R): ReturnTypes<R>;
 export function useEffectFn<R extends Effect$>(effect: R): ReturnType<R>;
@@ -34,7 +34,7 @@ function useUntilDestroyed() {
     [subject]
   );
 
-  useEffect(() => {
+  useInsertionEffect(() => {
     return () => subject.next(true);
   }, [subject]);
 
