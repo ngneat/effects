@@ -51,19 +51,20 @@ export const addTodo   = todoActions.create('Add Todo', props<Todo>())
 Next, we need to define the `effects`, and register them:
 
 ```ts
-import { createEffect, registerEffects, ofType } from '@ngneat/effects';
+import { createEffect, registerEffects, ofType, tapResult } from '@ngneat/effects';
 
 export const addTodo$ = createEffect((actions) =>
   actions.pipe(
     ofType(addTodo),
-    tap(console.log)
+    switchMap(() => apiCall()),
+    tapResult(console.log)
   )
 );
 
 registerEffects([addTodo$])
 ```
 
-Finally, we can dispatch actions using the `dispatch` function:
+The `tapResult` operator safely handles the result. It enforces that the effect would still be running in case of error. Finally, we can dispatch actions using the `dispatch` function:
 
 ```ts
 import { dispatch } from '@ngneat/effects';
