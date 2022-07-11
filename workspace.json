@@ -6,5 +6,6 @@
     "hooks": "libs/hooks",
     "ng-web": "apps/ng-web",
     "react-web": "apps/react-web"
-  }
+  },
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json"
 }

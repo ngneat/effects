@@ -19,17 +19,6 @@
       }
     }
   },
-  "targetDependencies": {
-    "build": [
-      {
-        "target": "build",
-        "projects": "dependencies"
-      }
-    ]
-  },
-  "cli": {
-    "defaultCollection": "@nrwl/web"
-  },
   "generators": {
     "@nrwl/web:application": {
       "style": "scss",
@@ -70,5 +59,11 @@
       }
     }
   },
-  "defaultProject": "react-web"
+  "defaultProject": "react-web",
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build"]
+    }
+  }
 }
