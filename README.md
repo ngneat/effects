@@ -58,8 +58,8 @@ export const addTodo$ = createEffect((actions) =>
       ofType(addTodo),
       switchMap(() => apiCall().pipe(
         tapResult(console.log, console.error)
-        )),
-      tapResult(console.log)
+        )
+      )
     );
   )
 );
