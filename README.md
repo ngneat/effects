@@ -54,10 +54,13 @@ Next, we need to define the `effects`, and register them:
 import { createEffect, registerEffects, ofType, tapResult } from '@ngneat/effects';
 
 export const addTodo$ = createEffect((actions) =>
-  actions.pipe(
-    ofType(addTodo),
-    switchMap(() => apiCall()),
-    tapResult(console.log)
+    actions.pipe(
+      ofType(addTodo),
+      switchMap(() => apiCall().pipe(
+        tapResult(console.log, console.error)
+        )),
+      tapResult(console.log)
+    );
   )
 );
 
