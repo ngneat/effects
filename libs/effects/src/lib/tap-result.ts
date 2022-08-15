@@ -10,7 +10,7 @@ export function tapResult<Result, Error = unknown>(
     source.pipe(
       tap({
         next,
-        error,
+        error: error ?? (err => console.error(err)),
         complete,
       }),
       catchError(() => EMPTY)
