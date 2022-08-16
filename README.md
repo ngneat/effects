@@ -74,7 +74,7 @@ import { dispatch } from '@ngneat/effects';
 
 dispatch(addTodo({ title: 'effects' }));
 ```
-`TabResult` also let us specify a custom error and completed handler. If no custom error handling is specified, a possible error will be printed to the console.
+`tapResult` also let us specify a custom error and completed handler. If no custom error handling is specified, a possible error will be printed to the console.
 
 ```ts
 
