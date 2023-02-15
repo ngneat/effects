@@ -1,4 +1,5 @@
 {
+  "name": "ng-web",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "apps/ng-web/src",
@@ -81,7 +82,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/ng-web"],
+      "outputs": ["{workspaceRoot}/coverage/apps/ng-web"],
       "options": {
         "jestConfig": "apps/ng-web/jest.config.ts",
         "passWithNoTests": true

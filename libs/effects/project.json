@@ -1,10 +1,11 @@
 {
+  "name": "effects",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/effects/src",
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nrwl/web:rollup",
+      "executor": "@nrwl/rollup:rollup",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/effects",
@@ -31,7 +32,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/effects"],
+      "outputs": ["{workspaceRoot}/coverage/libs/effects"],
       "options": {
         "jestConfig": "libs/effects/jest.config.ts",
         "passWithNoTests": true
