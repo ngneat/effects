@@ -1,9 +1,13 @@
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription, map } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Actions, actions } from './actions';
 import { Action } from './actions.types';
 import { Effect, EffectConfig } from './effects.types';
 import { coerceArray } from './utils';
+import {
+  ActionCreatorIsNotAllowed,
+  ActionCreatorsAreNotAllowed,
+} from './action-creator-is-not-allowed.type';
 
 export interface EffectsConfig {
   dispatchByDefault?: boolean;
@@ -44,12 +48,17 @@ export class EffectsManager {
 
     const sub = source
       .pipe(takeUntil(this.destroyEffects$))
-      .subscribe((maybeAction) => {
+      .subscribe((maybeActions) => {
+        const coercedMaybeActions = coerceArray(maybeActions);
+        const onlyActions = coercedMaybeActions.filter((maybeAction) =>
+          checkAction(maybeAction)
+        );
+
         if (
           effect.config?.dispatch ??
-          (this.config.dispatchByDefault && checkAction(maybeAction))
+          (this.config.dispatchByDefault && !!onlyActions.length)
         ) {
-          actions.dispatch(maybeAction);
+          actions.dispatch(...onlyActions);
         }
       });
 
@@ -87,12 +96,32 @@ export function initEffects(config?: EffectsConfig) {
   return (effectsManager = new EffectsManager(config));
 }
 
-export function createEffect(
-  factory: (actions: Actions) => Observable<any>,
+export function createEffect<T>(
+  factory: (actions: Actions) => Observable<T>,
+  config?: { dispatch: false }
+): Effect<T>;
+export function createEffect<T extends Action>(
+  factory: (actions: Actions) => Observable<ActionCreatorIsNotAllowed<T>>,
+  config: { dispatch: true }
+): Effect<ActionCreatorIsNotAllowed<T>>;
+export function createEffect<T extends Action>(
+  factory: (actions: Actions) => Observable<ActionCreatorIsNotAllowed<T>[]>,
+  config: { dispatch: true }
+): Effect<ActionCreatorIsNotAllowed<T>[]>;
+export function createEffect<T extends Action>(
+  factory: (
+    actions: Actions
+  ) => Observable<
+    ActionCreatorIsNotAllowed<T> | ActionCreatorsAreNotAllowed<T[]> | any
+  >,
   config?: EffectConfig
 ): Effect {
   return { sourceFn: factory, config };
 }
+
+createEffect((actions) => actions.pipe(map(() => [{ type: '' }])), {
+  dispatch: true,
+});
 
 export function registerEffects(effects: Effect | Effect[]) {
   effectsManager.registerEffects(coerceArray(effects));

@@ -1,4 +1,4 @@
-import { map } from 'rxjs';
+import { map, finalize } from 'rxjs';
 import { props } from 'ts-action';
 import { ofType } from 'ts-action-operators';
 import { createAction } from '../index';
@@ -16,6 +16,9 @@ const actionOne = createAction('Action One');
 const actionTwo = createAction('Action Two', props<{ value: string }>());
 const actionThree = createAction('Action Three', props<{ value: string }>());
 const actionFour = createAction('Action Four');
+const actionFive = createAction('Action Five');
+const actionSix = createAction('Action Six');
+const actionSeven = createAction('Action Seven');
 
 const effectOne = createEffect((actions) => actions.pipe(ofType(actionOne)));
 const effectTwo = createEffect((actions) => actions.pipe(ofType(actionTwo)));
@@ -31,11 +34,40 @@ const effectFive = createEffect(
     ),
   { dispatch: false }
 );
+const effectSix = createEffect((actions) =>
+  actions.pipe(
+    ofType(actionFive),
+    map(() => actionSix())
+  )
+);
+const effectSeven = createEffect((actions) =>
+  actions.pipe(
+    ofType(actionSix),
+    map(() => [actionSeven()])
+  )
+);
+const effectEight = createEffect(
+  (actions) =>
+    actions.pipe(
+      ofType(actionFive),
+      map(() => actionSix())
+    ),
+  { dispatch: true }
+);
+const effectNine = createEffect(
+  (actions) =>
+    actions.pipe(
+      ofType(actionSix),
+      map(() => [actionSeven()])
+    ),
+  { dispatch: true }
+);
 
 const faultyEffect = createEffect(() => ({ faulty: 'test' } as any));
 
 describe('Effects Manager', () => {
   let effectsManager: EffectsManager;
+  const dispatchSpy = jest.spyOn(actions, 'dispatch');
 
   beforeEach(() => {
     effectsManager = initEffects();
@@ -110,10 +142,52 @@ describe('Effects Manager', () => {
     effectsManager = new EffectsManager({ dispatchByDefault: true });
     effectsManager.registerEffects([effectFive]);
 
-    const spy = jest.spyOn(actions, 'dispatch');
-
     actions.dispatch(actionOne());
 
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(dispatchSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should dispatch actions from an effect when dispatchByDefault is set to true or dispatch is not set', () => {
+    // have to create a new EffectsManager bypassing initEffects() to get an instance with a different config
+    effectsManager = new EffectsManager({ dispatchByDefault: true });
+    effectsManager.registerEffects([effectSix, effectSeven]);
+
+    actions.dispatch(actionFive());
+
+    effectsManager.removeAllEffects();
+
+    expect(dispatchSpy).toHaveBeenCalledTimes(4);
+  });
+
+  it('should dispatch actions from an effect when dispatch is set to true', () => {
+    registerEffects([effectEight, effectNine]);
+
+    actions.dispatch(actionFive());
+
+    expect(dispatchSpy).toHaveBeenCalledTimes(7);
+  });
+
+  it('should throw type error when not actions are returned and dispatch is set to true', () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    createEffect(
+      (actions) =>
+        actions.pipe(
+          ofType(actionOne),
+          map(() => actionFour)
+        ),
+      { dispatch: true }
+    );
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    createEffect(
+      (actions) =>
+        actions.pipe(
+          ofType(actionOne),
+          map(() => [actionFour(), actionOne, actionFive()])
+        ),
+      { dispatch: true }
+    );
   });
 });
