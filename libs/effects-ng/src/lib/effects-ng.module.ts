@@ -7,15 +7,14 @@ import {
 } from '@angular/core';
 import {
   actions,
-  Effect,
   EffectsConfig,
   EffectsManager,
   initEffects,
-  isEffect,
   registerEffects,
 } from '@ngneat/effects';
 import { Actions } from './actions';
 import { EFFECTS_MANAGER, EFFECTS_PROVIDERS } from './tokens';
+import { retrieveOnlyEffects } from './utils';
 
 @NgModule()
 export class EffectsNgModule {
@@ -28,9 +27,9 @@ export class EffectsNgModule {
 
     flattenProviders.forEach((provider) => {
       const instance = injector.get(provider);
-      const effects = Object.values(instance).filter((v: any) => isEffect(v));
+      const effects = retrieveOnlyEffects(instance);
 
-      registerEffects(effects as Effect[]);
+      registerEffects(effects);
     });
   }
 
