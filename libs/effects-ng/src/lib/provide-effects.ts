@@ -6,7 +6,7 @@ import {
   EnvironmentProviders,
 } from '@angular/core';
 import { EFFECTS_MANAGER } from './tokens';
-import { retrieveOnlyEffects } from './utils';
+import { getEffectProps } from './utils';
 
 /**
  * Can be called at the root and feature levels.
@@ -30,7 +30,7 @@ export function provideEffects(
 
         providers.forEach((provider) => {
           const instance = inject(provider);
-          const effects = retrieveOnlyEffects(instance);
+          const effects = getEffectProps(instance);
 
           manager.registerEffects(effects);
         });
