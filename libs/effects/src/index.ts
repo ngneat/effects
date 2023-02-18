@@ -1,7 +1,6 @@
 export {
   registerEffects,
   removeEffects,
-  createEffect,
   removeAllEffects,
   initEffects,
   EffectsConfig,
@@ -22,3 +21,4 @@ export { toProps } from './lib/to-props.operator';
 export { isEffect } from './lib/utils';
 export { createEffectFn } from './lib/effect-fn';
 export { tapResult } from './lib/tap-result';
+export { createEffect } from './lib/create-effect';

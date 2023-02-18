@@ -1,10 +1,9 @@
-import { map, finalize } from 'rxjs';
+import { map } from 'rxjs';
 import { props } from 'ts-action';
 import { ofType } from 'ts-action-operators';
-import { createAction } from '../index';
+import { createAction, createEffect } from '../index';
 import { actions } from './actions';
 import {
-  createEffect,
   EffectsManager,
   initEffects,
   registerEffects,
@@ -165,29 +164,5 @@ describe('Effects Manager', () => {
     actions.dispatch(actionFive());
 
     expect(dispatchSpy).toHaveBeenCalledTimes(7);
-  });
-
-  it('should throw type error when not actions are returned and dispatch is set to true', () => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    createEffect(
-      (actions) =>
-        actions.pipe(
-          ofType(actionOne),
-          map(() => actionFour)
-        ),
-      { dispatch: true }
-    );
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    createEffect(
-      (actions) =>
-        actions.pipe(
-          ofType(actionOne),
-          map(() => [actionFour(), actionOne, actionFive()])
-        ),
-      { dispatch: true }
-    );
   });
 });
