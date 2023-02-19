@@ -1,9 +1,14 @@
 import { Subject } from 'rxjs';
 import { Action } from './actions.types';
+import { ActionCreatorsAreNotAllowed } from './action-creator-is-not-allowed.type';
 
 export class Actions extends Subject<Action> {
-  dispatch(value: Action): void {
-    this.next(value);
+  dispatch<T extends Action[]>(
+    ...actions: ActionCreatorsAreNotAllowed<T>
+  ): void {
+    actions.forEach((action) => {
+      this.next(action);
+    });
   }
 }
 

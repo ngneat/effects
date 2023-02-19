@@ -7,16 +7,19 @@ import {
 } from '@angular/core';
 import {
   actions,
-  Effect,
   EffectsConfig,
   EffectsManager,
   initEffects,
-  isEffect,
   registerEffects,
 } from '@ngneat/effects';
 import { Actions } from './actions';
 import { EFFECTS_MANAGER, EFFECTS_PROVIDERS } from './tokens';
+import { getEffectProps } from './utils';
 
+/**
+ * @deprecated Please consider using `provideEffectManager` and `provideEffects` functions instead. This module will be
+ *   deleted in the future.
+ */
 @NgModule()
 export class EffectsNgModule {
   constructor(
@@ -28,9 +31,9 @@ export class EffectsNgModule {
 
     flattenProviders.forEach((provider) => {
       const instance = injector.get(provider);
-      const effects = Object.values(instance).filter((v: any) => isEffect(v));
+      const effects = getEffectProps(instance);
 
-      registerEffects(effects as Effect[]);
+      registerEffects(effects);
     });
   }
 

@@ -127,38 +127,65 @@ export class TodosEffects {
 
 By default, the return value of an effect doesn't dispatch an action. You can get this behavior by passing the { dispatch: false } option as a second parameter.
 
-Then we need to register our the `effects` in our app module:
+Then we need to register `effects manager` by calling `provideEffectsManager` at the root level. Also to register effects at the root level we need to call `provideEffect` function:
 
 ```ts
-import { EffectsNgModule } from '@ngneat/effects-ng';
+import { provideEffectsManager, provideEffect } from '@ngneat/effects-ng';
 import { TodosEffects }    from 'todos/todos.effect.ts';
 
 @NgModule({
-  imports: [
-    EffectsNgModule.forRoot([TodosEffects], { dispatchByDefault: false }),
+  providers: [
+    /**
+     *  provideEffectsManager({ dispatchByDefault: true }),
+     */
+    provideEffectsManager(),
+    provideEffect(TodosEffects),
   ]
 })
 export class AppModule {
 }
+
+-- OR --
+
+bootstrapApplication(AppComponent, {
+  providers: [
+    /**
+     *  provideEffectsManager({ dispatchByDefault: true }),
+     */
+    provideEffectsManager(),
+    provideEffects(TodosEffects)
+  ],
+});
 ```
-The forRoot method can take as its second parameter the global configuration. 
-We can set the dispatchByDefault property to true for each effect to dispatch the resulting action. The default is set to false.
+The `provideEffectsManager` function can take the global configuration. 
+We can set the `dispatchByDefault` property to true for each effect to dispatch the resulting action. The default is set to false.
 
 As stated above, this behavior can be overwritten on each effect.
 
-In order to register lazily loaded effects use the `forFeature` method:
+In order to register lazily loaded effects use the `provideEffect` function on the [`envirenment`](https://angular.io/api/core/EnvironmentInjector) that you need:
 
 ```ts
 import { EffectsNgModule } from '@ngneat/effects-ng';
 import { PostsEffects }    from "posts/posts.effect.ts"
 
 @NgModule({
-  imports: [
-    EffectsNgModule.forFeature([PostsEffects])
+  providers: [
+    provideEffect(PostsEffects),
   ]
 })
 export class LazyModule {
 }
+
+-- OR --
+
+export ROUTES = [
+  ...,
+  {
+    path: 'lazy',
+    loadChildren: () => import('./lazy-route/lazy.routes').then(mod => mod.ROUTES),
+    providers: [provideEffect(PostsEffects)],
+  }
+]
 ```
 
 The actions can be dispatched by injecting the `Actions` provider:
@@ -190,11 +217,9 @@ describe("Effect test", () => {
     customActionsStream = new Actions();
 
     TestBed.configureTestingModule({
-      imports: [
-        EffectsNgModule.forRoot(
-          [EffectsOne],
-          { customActionsStream }
-        )
+      providers: [
+        provideEffectsManager({ customActionsStream }),
+        provideEffect(EffectsOne),
       ]
     });
   })

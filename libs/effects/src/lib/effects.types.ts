@@ -5,7 +5,7 @@ export interface EffectConfig {
   dispatch: boolean;
 }
 
-export interface Effect {
-  sourceFn: (actions: Actions) => Observable<any>;
+export interface Effect<T = any> {
+  sourceFn: (actions: Actions) => Observable<T>;
   config?: EffectConfig;
 }
