@@ -2,10 +2,7 @@ import { Actions } from './actions';
 import { Observable } from 'rxjs';
 import { Effect, EffectConfig } from './effects.types';
 import { Action } from './actions.types';
-import {
-  ActionCreatorIsNotAllowed,
-  ActionCreatorsAreNotAllowed,
-} from './action-creator-is-not-allowed.type';
+import { ActionCreatorOrActionCreatorsAreNotAllowed } from './action-creator-is-not-allowed.type';
 
 /**
  * @usageNotes
@@ -15,16 +12,34 @@ import {
  * You can return anything in passed observable.
  *
  * ```ts
+ * const trigger = createAction('Trigger');
+ *
  * const anything: any;
  *
  * const effect$ = createEffect(
  *  (actions) => actions.pipe(
+ *    ofType(trigger),
  *    map(() => anything)
  *  )
  * );
+ *
  * const effect$ = createEffect(
  *  (actions) => actions.pipe(
+ *    ofType(trigger)
+ *  )
+ * );
+ *
+ * const effect$ = createEffect(
+ *  (actions) => actions.pipe(
+ *    ofType(trigger),
  *    map(() => anything)
+ *  ),
+ *  { dispatch: false }
+ * );
+ *
+ * const effect$ = createEffect(
+ *  (actions) => actions.pipe(
+ *    ofType(trigger)
  *  ),
  *  { dispatch: false }
  * );
@@ -39,19 +54,31 @@ import {
  * { dispatchByDefault: true }
  *
  * ...
+ * const trigger = createAction('Trigger');
  *
  * const action = createAction('Get todos');
  * const action2 = createAction('Update todo');
  *
  * const effect$ = createEffect(
  *  (actions) => actions.pipe(
+ *    ofType(trigger),
  *    map(() => action())
  *  )
  * );
+ *
  * const effect$ = createEffect(
  *  (actions) => actions.pipe(
+ *    ofType(trigger),
  *    map(() => [action(), action2()])
  *  )
+ * );
+ *
+ * const effect$ = createEffect(
+ *  (actions) => actions.pipe(
+ *    ofType(trigger),
+ *    map(() => condition ? [action(), action2()] : action())
+ *  ),
+ *  { dispatch: true }
  * );
  * ```
  */
@@ -64,51 +91,50 @@ export function createEffect<T>(
  *
  * ### With `dispatch` set to `true`.
  *
- * You can return an `Action` to be dispatched.
+ * You can return an `Action` or an array of `Action`s to be dispatched.
  *
  * ```ts
- * const action = createAction('Get todos');
+ * const trigger = createAction('Trigger');
  *
- * const effect$ = createEffect(
- *  (actions) => actions.pipe(
- *    map(() => action())
- *  ),
- *  { dispatch: true }
- * );
- * ```
- */
-export function createEffect<T extends Action>(
-  factory: (actions: Actions) => Observable<ActionCreatorIsNotAllowed<T>>,
-  config: { dispatch: true }
-): Effect<ActionCreatorIsNotAllowed<T>>;
-/**
- * @usageNotes
- *
- * ### With `dispatch` set to `true`.
- *
- * You can return an array of `Action`s to be dispatched.
- *
- * ```ts
  * const action = createAction('Get todos');
  * const action2 = createAction('Update todo');
  *
  * const effect$ = createEffect(
  *  (actions) => actions.pipe(
+ *    ofType(trigger),
+ *    map(() => action())
+ *  ),
+ *  { dispatch: true }
+ * );
+ *
+ * const effect$ = createEffect(
+ *  (actions) => actions.pipe(
+ *    ofType(trigger),
  *    map(() => [action(), action2()])
+ *  ),
+ *  { dispatch: true }
+ * );
+ *
+ * const effect$ = createEffect(
+ *  (actions) => actions.pipe(
+ *    ofType(trigger),
+ *    map(() => condition ? [action(), action2()] : action())
  *  ),
  *  { dispatch: true }
  * );
  * ```
  */
-export function createEffect<T extends Action>(
-  factory: (actions: Actions) => Observable<ActionCreatorIsNotAllowed<T>[]>,
+export function createEffect<T extends Action | Action[]>(
+  factory: (
+    actions: Actions
+  ) => Observable<ActionCreatorOrActionCreatorsAreNotAllowed<T>>,
   config: { dispatch: true }
-): Effect<ActionCreatorIsNotAllowed<T>[]>;
-export function createEffect<T extends Action>(
+): Effect<ActionCreatorOrActionCreatorsAreNotAllowed<T>>;
+export function createEffect(
   factory: (
     actions: Actions
   ) => Observable<
-    ActionCreatorIsNotAllowed<T> | ActionCreatorsAreNotAllowed<T[]> | any
+    ActionCreatorOrActionCreatorsAreNotAllowed<Action | Action[]> | any
   >,
   config?: EffectConfig
 ): Effect {

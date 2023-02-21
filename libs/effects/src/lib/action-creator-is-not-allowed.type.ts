@@ -23,3 +23,11 @@ export type ActionCreatorsAreNotAllowed<T extends Action[]> = T extends [
   : T[0] extends ActionCreatorIsNotAllowed<T[0]>
   ? T
   : [];
+
+export type ActionCreatorOrActionCreatorsAreNotAllowed<
+  T extends Action | Action[]
+> = T extends Action[]
+  ? ActionCreatorsAreNotAllowed<T>
+  : T extends Action
+  ? ActionCreatorIsNotAllowed<T>
+  : [];

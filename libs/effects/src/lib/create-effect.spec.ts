@@ -30,5 +30,18 @@ describe('createEffect', () => {
         ),
       { dispatch: true }
     );
+
+    const condition = true;
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    createEffect(
+      (actions) =>
+        actions.pipe(
+          ofType(actionOne),
+          map(() => (condition ? [actionTwo()] : actionThree))
+        ),
+      { dispatch: true }
+    );
   });
 });
