@@ -1,20 +1,13 @@
-import {
-  Inject,
-  Injector,
-  ModuleWithProviders,
-  NgModule,
-  Type,
-} from '@angular/core';
+import { Inject, ModuleWithProviders, NgModule, Type } from '@angular/core';
 import {
   actions,
   EffectsConfig,
   EffectsManager,
   initEffects,
-  registerEffects,
 } from '@ngneat/effects';
 import { Actions } from './actions';
 import { EFFECTS_MANAGER, EFFECTS_PROVIDERS } from './tokens';
-import { getEffectProps } from './utils';
+import { registerEffectFromProviders } from './provide-effects';
 
 /**
  * @deprecated Please consider using `provideEffectManager` and `provideEffects` functions instead. This module will be
@@ -24,17 +17,9 @@ import { getEffectProps } from './utils';
 export class EffectsNgModule {
   constructor(
     @Inject(EFFECTS_MANAGER) manager: EffectsManager,
-    @Inject(EFFECTS_PROVIDERS) providers: Type<any>[],
-    injector: Injector
+    @Inject(EFFECTS_PROVIDERS) providers: Type<any>[]
   ) {
-    const flattenProviders = flatten(providers);
-
-    flattenProviders.forEach((provider) => {
-      const instance = injector.get(provider);
-      const effects = getEffectProps(instance);
-
-      registerEffects(effects);
-    });
+    registerEffectFromProviders(flatten(providers), manager);
   }
 
   static forRoot(
