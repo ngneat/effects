@@ -45,16 +45,14 @@ export class EffectsManager {
     const sub = source
       .pipe(takeUntil(this.destroyEffects$))
       .subscribe((maybeActions) => {
-        const coercedMaybeActions = coerceArray(maybeActions);
-        const onlyActions = coercedMaybeActions.filter((maybeAction) =>
-          checkAction(maybeAction)
-        );
-
-        if (
-          effect.config?.dispatch ??
-          (this.config.dispatchByDefault && !!onlyActions.length)
-        ) {
-          actions.dispatch(...onlyActions);
+        if (effect.config?.dispatch ?? this.config.dispatchByDefault) {
+          const coercedMaybeActions = coerceArray(maybeActions);
+          const onlyActions = coercedMaybeActions.filter((maybeAction) =>
+            checkAction(maybeAction)
+          );
+          if (onlyActions.length) {
+            actions.dispatch(...onlyActions);
+          }
         }
       });
 
@@ -69,16 +67,10 @@ export class EffectsManager {
 }
 
 function checkAction(action: unknown): action is Action {
-  if (
+  return !!(
     typeof action === 'object' &&
     action !== null &&
     (action as Action).type
-  ) {
-    return true;
-  }
-
-  throw new TypeError(
-    'Make sure to provide a valid action type or set the option {dispatch: false}'
   );
 }
 

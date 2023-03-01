@@ -72,6 +72,10 @@ describe('Effects Manager', () => {
     effectsManager = initEffects();
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should register effects', () => {
     registerEffects(effectOne);
     registerEffects(effectTwo);
@@ -155,7 +159,7 @@ describe('Effects Manager', () => {
 
     effectsManager.removeAllEffects();
 
-    expect(dispatchSpy).toHaveBeenCalledTimes(4);
+    expect(dispatchSpy).toHaveBeenCalledTimes(3);
   });
 
   it('should dispatch actions from an effect when dispatch is set to true', () => {
@@ -163,6 +167,6 @@ describe('Effects Manager', () => {
 
     actions.dispatch(actionFive());
 
-    expect(dispatchSpy).toHaveBeenCalledTimes(7);
+    expect(dispatchSpy).toHaveBeenCalledTimes(3);
   });
 });
