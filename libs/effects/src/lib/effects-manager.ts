@@ -45,15 +45,11 @@ export class EffectsManager {
     const sub = source
       .pipe(takeUntil(this.destroyEffects$))
       .subscribe((maybeActions) => {
-        const coercedMaybeActions = coerceArray(maybeActions);
-        const onlyActions = coercedMaybeActions.filter((maybeAction) =>
-          checkAction(maybeAction)
-        );
+        if (effect.config?.dispatch ?? this.config.dispatchByDefault) {
+          const onlyActions = coerceArray(maybeActions).filter((maybeAction) =>
+            checkAction(maybeAction)
+          );
 
-        if (
-          effect.config?.dispatch ??
-          (this.config.dispatchByDefault && !!onlyActions.length)
-        ) {
           actions.dispatch(...onlyActions);
         }
       });
