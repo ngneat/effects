@@ -1,11 +1,12 @@
-import { Component, Injectable } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import { Component, Injectable, NgModule } from '@angular/core';
+import { TestBed, flushMicrotasks, fakeAsync } from '@angular/core/testing';
 import { createAction, createEffect } from '@ngneat/effects';
 import { tap } from 'rxjs';
 import { ofType } from 'ts-action-operators';
 import { Actions } from './actions';
 import { EffectsNgModule } from './effects-ng.module';
 import { EFFECTS_PROVIDERS } from './tokens';
+import { Router, RouterModule } from '@angular/router';
 
 const spy = jest.fn();
 
@@ -24,6 +25,9 @@ class EffectsTwo {}
 @Injectable()
 class EffectsThree {}
 
+@Component({ template: '', standalone: true })
+class MockComponent {}
+
 @Component({ template: '' })
 class TodoComponent {
   constructor(private actions: Actions) {
@@ -32,6 +36,10 @@ class TodoComponent {
 }
 
 describe('Effects ng module', () => {
+  beforeEach(() => {
+    spy.mockReset();
+  });
+
   it('should provide effects one using forRoot', () => {
     TestBed.configureTestingModule({
       imports: [EffectsNgModule.forRoot([EffectsOne])],
@@ -64,6 +72,42 @@ describe('Effects ng module', () => {
 
     expect(spy).toHaveBeenCalled();
   });
+
+  it('should subscribe on the same effects only once', fakeAsync(() => {
+    @NgModule({
+      imports: [
+        RouterModule.forChild([
+          {
+            path: '',
+            component: MockComponent,
+          },
+        ]),
+        EffectsNgModule.forFeature([EffectsOne, EffectsOne]),
+      ],
+    })
+    class LazyModule {}
+
+    TestBed.configureTestingModule({
+      providers: [TodoComponent],
+      imports: [
+        RouterModule.forRoot([
+          {
+            path: 'test',
+            loadChildren: () => Promise.resolve().then(() => LazyModule),
+          },
+        ]),
+        EffectsNgModule.forRoot([EffectsOne, EffectsOne]),
+      ],
+    });
+
+    TestBed.inject(Router).navigate(['/test']);
+
+    flushMicrotasks();
+
+    TestBed.inject(TodoComponent);
+
+    expect(spy).toHaveBeenCalledTimes(1);
+  }));
 
   it('should use a custom action stream', (done) => {
     const customActionsStream = new Actions();
