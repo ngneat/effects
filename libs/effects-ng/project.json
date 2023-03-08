@@ -9,7 +9,8 @@
       "executor": "@nrwl/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/effects-ng"],
       "options": {
-        "project": "libs/effects-ng/ng-package.json"
+        "project": "libs/effects-ng/ng-package.json",
+        "updateBuildableProjectDepsInPackageJson": false
       },
       "configurations": {
         "production": {
