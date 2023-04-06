@@ -210,7 +210,7 @@ import { useDirectiveEffects, Actions } from '@ngneat/effects-ng';
 
 @Component({
   ...,
-  hostDirective: [useDirectiveEffects(TodosEffects)]
+  hostDirectives: [useDirectiveEffects(TodosEffects)]
 })
 export class TodosComponent {
   constructor(private actions: Actions) {}
