@@ -12,6 +12,7 @@ import { EagerEffects } from './state/eager.effects';
   template: ` <div>Eager component loaded</div> `,
   providers: [provideDirectiveEffects(EagerEffects)],
   hostDirectives: [EffectsDirective],
+  standalone: true,
 })
 export class EagerComponent {
   constructor(private actions: Actions) {
