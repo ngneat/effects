@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { EffectsNgModule } from '@ngneat/effects-ng';
+import { provideEffectsManager, provideEffects } from '@ngneat/effects-ng';
 import { AppComponent } from './app.component';
 import { EagerComponent } from './eager/eager.component';
 import { EagerModule } from './eager/eager.module';
@@ -26,10 +26,13 @@ import { TodoComponent } from './todo/todo.component';
           import('./lazy/lazy.module').then((m) => m.LazyModule),
       },
     ]),
-    EffectsNgModule.forRoot([TestEffects, TodoEffects]),
     EagerModule,
     HttpClientModule,
     FormsModule,
+  ],
+  providers: [
+    provideEffectsManager(),
+    provideEffects(TestEffects, TodoEffects),
   ],
   bootstrap: [AppComponent],
 })
