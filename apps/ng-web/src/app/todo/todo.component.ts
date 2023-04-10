@@ -3,6 +3,7 @@ import { Actions } from '@ngneat/effects-ng';
 import { addTodo, loadTodos } from './+state/actions';
 import { todos$ } from './+state/todos.repository';
 import { TodoEffects } from './+state/todo.effects';
+import { NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'effects-todo',
@@ -25,6 +26,8 @@ import { TodoEffects } from './+state/todo.effects';
       <li *ngFor="let todo of todos | async">{{ todo.title }}</li>
     </ul>
   `,
+  standalone: true,
+  imports: [NgFor, AsyncPipe],
 })
 export class TodoComponent implements OnInit {
   addTodo = '';

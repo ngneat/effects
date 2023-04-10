@@ -5,6 +5,7 @@ import { lazyActionTwo } from './state/lazy.actions';
 @Component({
   selector: 'effects-root',
   template: ` <div>Lazy component loaded</div> `,
+  standalone: true,
 })
 export class LazyComponent {
   constructor(private actions: Actions) {
