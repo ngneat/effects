@@ -5,7 +5,10 @@ import { tap } from 'rxjs';
 import { ofType } from 'ts-action-operators';
 import { Actions } from './actions';
 import { provideEffectsManager } from './provide-effects-manager';
-import { useDirectiveEffects } from './use-directive-effects';
+import {
+  provideDirectiveEffects,
+  EffectsDirective,
+} from './use-directive-effects';
 import { provideEffects } from './provide-effects';
 
 const spy = jest.fn();
@@ -34,7 +37,8 @@ function createComponentType(...providers: Type<any>[]): Type<any> {
   @Component({
     template: '',
     standalone: true,
-    hostDirectives: [useDirectiveEffects(...providers)],
+    providers: [provideDirectiveEffects(...providers)],
+    hostDirectives: [EffectsDirective],
   })
   class TodoComponent {
     constructor(private actions: Actions) {
@@ -45,7 +49,7 @@ function createComponentType(...providers: Type<any>[]): Type<any> {
   return TodoComponent;
 }
 
-describe('useDirectiveEffects', () => {
+describe('provideDirectiveEffects & EffectsDirective', () => {
   beforeEach(() => {
     spy.mockClear();
     spy2.mockClear();
@@ -113,7 +117,7 @@ describe('useDirectiveEffects', () => {
     expect(spy2).toHaveBeenCalledTimes(1);
   });
 
-  it('should unsubscribe only from effects that was registered via useDirectiveEffects when component is destroyed', () => {
+  it('should unsubscribe only from effects that was registered via provideDirectiveEffects when component is destroyed', () => {
     const componentType = createComponentType(
       EffectsOne,
       EffectsOne,
@@ -123,7 +127,8 @@ describe('useDirectiveEffects', () => {
     @Component({
       template: '',
       standalone: true,
-      hostDirectives: [useDirectiveEffects(EffectsOne, EffectsTwo)],
+      providers: [provideDirectiveEffects(EffectsOne, EffectsTwo)],
+      hostDirectives: [EffectsDirective],
     })
     class TestComponent {
       constructor(private actions: Actions) {

@@ -203,14 +203,15 @@ export class AppComponent {
 > Registering an effects class multiple times, either by `forRoot()`, `forFeature()`, or `provideEffects()`, (for example in different lazy loaded features) will not cause the effects to run multiple times.
 
 #### Directive Effects
-`useDirectiveEffects()` serves to register effects on the `component injector` level. This means that effects will live as long as the component where effects are registered lives. Do not forget to call `provideEffectsManager` in the root providers.
+`provideDirectiveEffects()` and `EffectsDirective` serve to register effects on the `component injector` level. This means that effects will live as long as the component where effects are registered lives. Do not forget to call `provideEffectsManager` in the root providers.
 
 ```ts
-import { useDirectiveEffects, Actions } from '@ngneat/effects-ng';
+import { provideDirectiveEffects, EffectsDirective, Actions } from '@ngneat/effects-ng';
 
 @Component({
   ...,
-  hostDirective: [useDirectiveEffects(TodosEffects)]
+  providers: [provideDirectiveEffects(TodosEffects)],
+  hostDirectives: [EffectsDirective],
 })
 export class TodosComponent {
   constructor(private actions: Actions) {}
@@ -221,8 +222,8 @@ export class TodosComponent {
 }
 ```
 
-> If multiple components register the same effects via `useDirectiveEffects()` it will not cause the effects to run multiple times. The effects will be running until the last component that registered these effects via `useDirectiveEffects()` is destroyed. 
-If the same effects were registered multiple times via `forRoot(), forFeature(), provideEffects()` and `useDirectiveEffects()` then after the component is destroyed the effects will be still running.
+> If multiple components register the same effects via `provideDirectiveEffects() & EffectsDirective` it will not cause the effects to run multiple times. The effects will be running until the last component that registered these effects via `provideDirectiveEffects() & EffectsDirective` is destroyed. 
+If the same effects were registered multiple times via `forRoot(), forFeature(), provideEffects()` and `provideDirectiveEffects() & EffectsDirective` then after the component is destroyed the effects will be still running.
 
 ### Testing
 
