@@ -40,7 +40,8 @@ export class EffectsManager {
   }
 
   private subscribeEffect(effect: Effect) {
-    const source = effect.sourceFn(this.config.customActionsStream || actions);
+    const actionsStream = this.config.customActionsStream || actions;
+    const source = effect.sourceFn(actionsStream);
 
     const sub = source
       .pipe(takeUntil(this.destroyEffects$))
@@ -50,7 +51,7 @@ export class EffectsManager {
             checkAction(maybeAction)
           );
 
-          actions.dispatch(...onlyActions);
+          actionsStream.dispatch(...onlyActions);
         }
       });
 

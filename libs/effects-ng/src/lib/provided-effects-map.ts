@@ -1,17 +1,19 @@
 import { Type } from '@angular/core';
 import { Effect } from '@ngneat/effects';
 
-const providedEffectsMap = new Map<
-  ProvidedEffectToken,
-  { sources: number; effect: Effect }
+const providedEffectsSourceInstances = new Map<
+  any,
+  Map<ProvidedEffectToken, { sources: number; effect: Effect }>
 >();
 
 export type ProvidedEffectToken = `${string} - ${string}`;
 
-export function getProvideEffectByToken(
+export function getProvidedEffect(
+  sourceInstance: any,
   effectToken: ProvidedEffectToken
 ): Effect | undefined {
-  return providedEffectsMap.get(effectToken)?.effect;
+  return providedEffectsSourceInstances.get(sourceInstance)?.get(effectToken)
+    ?.effect;
 }
 
 export function generateProvidedEffectToken(
@@ -21,26 +23,43 @@ export function generateProvidedEffectToken(
   return `${provider.name} - ${effectKey}`;
 }
 
-export function isEffectProvided(effectToken: ProvidedEffectToken): boolean {
-  return providedEffectsMap.has(effectToken);
+export function isEffectProvided(
+  sourceInstance: any,
+  effectToken: ProvidedEffectToken
+): boolean {
+  return !!providedEffectsSourceInstances.get(sourceInstance)?.has(effectToken);
 }
 
 export function provideEffect(
+  sourceInstance: any,
   effectToken: ProvidedEffectToken,
   effect: Effect
 ): void {
-  providedEffectsMap.set(effectToken, { sources: 1, effect });
+  const providedEffectsMapBySourceInstance =
+    providedEffectsSourceInstances.get(sourceInstance);
+
+  if (providedEffectsMapBySourceInstance) {
+    providedEffectsMapBySourceInstance.set(effectToken, { sources: 1, effect });
+  } else {
+    providedEffectsSourceInstances.set(
+      sourceInstance,
+      new Map([[effectToken, { sources: 1, effect }]])
+    );
+  }
 }
 
 export function increaseProvidedEffectSources(
+  sourceInstance: any,
   effectToken: ProvidedEffectToken
 ): void {
-  const providedEffect = providedEffectsMap.get(effectToken);
+  const providedEffectsMapBySourceInstance =
+    providedEffectsSourceInstances.get(sourceInstance);
+  const providedEffect = providedEffectsMapBySourceInstance?.get(effectToken);
 
-  if (providedEffect) {
+  if (providedEffectsMapBySourceInstance && providedEffect) {
     const sources = providedEffect.sources ?? 0;
 
-    providedEffectsMap.set(effectToken, {
+    providedEffectsMapBySourceInstance.set(effectToken, {
       ...providedEffect,
       sources: sources + 1,
     });
@@ -48,17 +67,24 @@ export function increaseProvidedEffectSources(
 }
 
 export function decreaseProvidedEffectSources(
+  sourceInstance: any,
   effectToken: ProvidedEffectToken
 ): void {
-  const providedEffect = providedEffectsMap.get(effectToken);
+  const providedEffectsMapBySourceInstance =
+    providedEffectsSourceInstances.get(sourceInstance);
+  const providedEffect = providedEffectsMapBySourceInstance?.get(effectToken);
 
-  if (providedEffect) {
+  if (providedEffectsMapBySourceInstance && providedEffect) {
     const sources = providedEffect.sources ?? 0;
 
     if (sources === 0 || sources - 1 === 0) {
-      providedEffectsMap.delete(effectToken);
+      providedEffectsMapBySourceInstance.delete(effectToken);
+
+      if (!providedEffectsMapBySourceInstance.size) {
+        providedEffectsSourceInstances.delete(sourceInstance);
+      }
     } else {
-      providedEffectsMap.set(effectToken, {
+      providedEffectsMapBySourceInstance.set(effectToken, {
         ...providedEffect,
         sources: sources - 1,
       });
