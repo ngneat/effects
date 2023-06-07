@@ -103,6 +103,39 @@ describe('provideEffects', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   }));
 
+  it('should properly determine source instances and subscribe to their effects', () => {
+    const sourceSpy = jest.fn();
+    const action = createAction('Action');
+    const effects = {
+      one: class A {
+        loadTodos$ = createEffect((actions) =>
+          actions.pipe(ofType(action), tap(sourceSpy))
+        );
+      },
+      two: class A {
+        loadTodos$ = createEffect((actions) =>
+          actions.pipe(ofType(action), tap(sourceSpy))
+        );
+      },
+    };
+    const extendedEffect = class A extends effects.one {};
+
+    TestBed.configureTestingModule({
+      providers: [
+        provideEffectsManager(),
+        provideEffects(effects.one, effects.two, extendedEffect),
+      ],
+    });
+
+    expect(TestBed.inject(effects.one)).toBeDefined();
+    expect(TestBed.inject(effects.two)).toBeDefined();
+    expect(TestBed.inject(extendedEffect)).toBeDefined();
+
+    TestBed.inject(Actions).dispatch(action());
+
+    expect(sourceSpy).toHaveBeenCalledTimes(3);
+  });
+
   it("should thrown an error if effects manager wasn't provided at the root level", () => {
     TestBed.configureTestingModule({
       providers: [provideEffects(EffectsOne)],

@@ -16,7 +16,7 @@ import {
   decreaseProvidedEffectSources,
   generateProvidedEffectToken,
   ProvidedEffectToken,
-  getProvideEffectByToken,
+  getProvidedEffect,
 } from './provided-effects-map';
 
 const EFFECTS_DIRECTIVE_PROVIDERS = new InjectionToken<Type<any>[]>(
@@ -40,7 +40,10 @@ export class EffectsDirective implements OnDestroy {
     optional: true,
   });
   private readonly manager = inject(EFFECTS_MANAGER, { optional: true });
-  private readonly providersEffectsTokens = new Set<ProvidedEffectToken>();
+  private readonly sourceInstancesWithProvidersEffectsTokens = new Map<
+    any,
+    ProvidedEffectToken
+  >();
 
   constructor() {
     if (!this.manager) {
@@ -61,14 +64,18 @@ export class EffectsDirective implements OnDestroy {
       const instance = inject(provider, { self: true });
 
       getEffectPropsMap(instance).forEach((effect, key) => {
+        const sourceInstance = Object.getPrototypeOf(instance);
         const token = generateProvidedEffectToken(provider, key);
 
-        this.providersEffectsTokens.add(token);
+        this.sourceInstancesWithProvidersEffectsTokens.set(
+          Object.getPrototypeOf(instance),
+          token
+        );
 
-        if (isEffectProvided(token)) {
-          increaseProvidedEffectSources(token);
+        if (isEffectProvided(sourceInstance, token)) {
+          increaseProvidedEffectSources(sourceInstance, token);
         } else {
-          provideEffect(token, effect);
+          provideEffect(sourceInstance, token, effect);
 
           effects.push(effect);
         }
@@ -85,20 +92,19 @@ export class EffectsDirective implements OnDestroy {
   }
 
   private unregisterEffect(): void {
-    const effects = [...this.providersEffectsTokens].reduce<Effect[]>(
-      (effects, token) => {
-        const effect = getProvideEffectByToken(token);
+    const effects = [
+      ...this.sourceInstancesWithProvidersEffectsTokens.entries(),
+    ].reduce<Effect[]>((effects, [sourceInstance, token]) => {
+      const effect = getProvidedEffect(sourceInstance, token);
 
-        decreaseProvidedEffectSources(token);
+      decreaseProvidedEffectSources(sourceInstance, token);
 
-        if (effect && !isEffectProvided(token)) {
-          effects.push(effect);
-        }
+      if (effect && !isEffectProvided(sourceInstance, token)) {
+        effects.push(effect);
+      }
 
-        return effects;
-      },
-      []
-    );
+      return effects;
+    }, []);
 
     this.manager?.removeEffects(effects);
   }

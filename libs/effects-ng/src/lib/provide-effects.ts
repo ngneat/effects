@@ -9,10 +9,10 @@ import { EFFECTS_MANAGER } from './tokens';
 import { getEffectPropsMap } from './utils';
 import { Effect, EffectsManager } from '@ngneat/effects';
 import {
-  isEffectProvided,
   provideEffect,
   increaseProvidedEffectSources,
   generateProvidedEffectToken,
+  isEffectProvided,
 } from './provided-effects-map';
 
 /**
@@ -50,12 +50,13 @@ export function registerEffectFromProviders(
     const effects: Effect[] = [];
 
     getEffectPropsMap(instance).forEach((effect, key) => {
+      const sourceInstance = Object.getPrototypeOf(instance);
       const token = generateProvidedEffectToken(provider, key);
 
-      if (isEffectProvided(token)) {
-        increaseProvidedEffectSources(token);
+      if (isEffectProvided(sourceInstance, token)) {
+        increaseProvidedEffectSources(sourceInstance, token);
       } else {
-        provideEffect(token, effect);
+        provideEffect(sourceInstance, token, effect);
 
         effects.push(effect);
       }

@@ -35,6 +35,7 @@ class EffectsThree {}
 
 function createComponentType(...providers: Type<any>[]): Type<any> {
   @Component({
+    selector: 'ngneat-todo',
     template: '',
     standalone: true,
     providers: [provideDirectiveEffects(...providers)],
@@ -125,6 +126,7 @@ describe('provideDirectiveEffects & EffectsDirective', () => {
     );
 
     @Component({
+      selector: 'ngneat-test',
       template: '',
       standalone: true,
       providers: [provideDirectiveEffects(EffectsOne, EffectsTwo)],
@@ -165,6 +167,70 @@ describe('provideDirectiveEffects & EffectsDirective', () => {
 
     expect(spy).toHaveBeenCalledTimes(4);
     expect(spy2).toHaveBeenCalledTimes(3);
+  });
+
+  it('should properly determine source instances and manage their effects', () => {
+    const sourceSpy = jest.fn();
+    const source2Spy = jest.fn();
+    const action = createAction('Action');
+    const effects = {
+      one: class A {
+        loadTodos$ = createEffect((actions) =>
+          actions.pipe(ofType(action), tap(sourceSpy))
+        );
+      },
+      two: class A {
+        loadTodos$ = createEffect((actions) =>
+          actions.pipe(ofType(action), tap(source2Spy))
+        );
+      },
+    };
+    const extendedEffect = class A extends effects.one {};
+
+    const componentType = createComponentType(
+      effects.one,
+      effects.two,
+      extendedEffect
+    );
+
+    @Component({
+      selector: 'ngneat-test',
+      template: '',
+      standalone: true,
+      providers: [provideDirectiveEffects(effects.one, effects.two)],
+      hostDirectives: [EffectsDirective],
+    })
+    class TestComponent {}
+
+    TestBed.configureTestingModule({
+      imports: [componentType, TestComponent],
+      providers: [provideEffectsManager(), provideEffects(effects.two)],
+    });
+
+    const fixture = TestBed.createComponent(componentType);
+    const fixture2 = TestBed.createComponent(componentType);
+    const fixture3 = TestBed.createComponent(TestComponent);
+    const actions = TestBed.inject(Actions);
+
+    actions.dispatch(action());
+
+    expect(sourceSpy).toHaveBeenCalledTimes(2);
+    expect(source2Spy).toHaveBeenCalledTimes(1);
+
+    fixture.destroy();
+    fixture2.destroy();
+
+    actions.dispatch(action());
+
+    expect(sourceSpy).toHaveBeenCalledTimes(3);
+    expect(source2Spy).toHaveBeenCalledTimes(2);
+
+    fixture3.destroy();
+
+    actions.dispatch(action());
+
+    expect(sourceSpy).toHaveBeenCalledTimes(3);
+    expect(source2Spy).toHaveBeenCalledTimes(3);
   });
 
   it("should thrown an error if effects manager wasn't provided at the root level", () => {
