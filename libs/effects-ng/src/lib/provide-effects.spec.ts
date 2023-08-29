@@ -1,9 +1,8 @@
 import { Component, Injectable } from '@angular/core';
 import { TestBed, flushMicrotasks, fakeAsync } from '@angular/core/testing';
-import { createAction, createEffect } from '@ngneat/effects';
+import { Actions, createAction, createEffect } from '@ngneat/effects';
 import { tap } from 'rxjs';
 import { ofType } from 'ts-action-operators';
-import { Actions } from './actions';
 import { provideEffects } from './provide-effects';
 import { provideEffectsManager } from './provide-effects-manager';
 import { Routes, provideRouter, Router } from '@angular/router';

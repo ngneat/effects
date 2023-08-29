@@ -1,11 +1,16 @@
 import { Component, Injectable, NgModule } from '@angular/core';
 import { TestBed, flushMicrotasks, fakeAsync } from '@angular/core/testing';
-import { createAction, createEffect } from '@ngneat/effects';
+import {
+  Actions,
+  EffectsManager,
+  createAction,
+  createEffect,
+} from '@ngneat/effects';
 import { tap } from 'rxjs';
 import { ofType } from 'ts-action-operators';
-import { Actions } from './actions';
 import { EffectsNgModule } from './effects-ng.module';
-import { EFFECTS_PROVIDERS } from './tokens';
+import { EFFECTS_MANAGER, EFFECTS_PROVIDERS } from './tokens';
+import { Actions as _Actions } from './actions';
 import { Router, RouterModule } from '@angular/router';
 
 const spy = jest.fn();
@@ -38,6 +43,24 @@ class TodoComponent {
 describe('Effects ng module', () => {
   beforeEach(() => {
     spy.mockReset();
+  });
+
+  it('should provide the same instance for different tokens of Actions', () => {
+    TestBed.configureTestingModule({
+      imports: [EffectsNgModule.forRoot([])],
+    });
+    const actions = TestBed.inject(Actions);
+    const _actions = TestBed.inject(_Actions);
+    expect(actions === _actions).toBe(true);
+  });
+
+  it('should provide the same instance for different tokens of EffectsManager', () => {
+    TestBed.configureTestingModule({
+      imports: [EffectsNgModule.forRoot([])],
+    });
+    const effectsManager = TestBed.inject(EffectsManager);
+    const _effectsManager = TestBed.inject(EFFECTS_MANAGER);
+    expect(effectsManager === _effectsManager).toBe(true);
   });
 
   it('should provide effects one using forRoot', () => {
