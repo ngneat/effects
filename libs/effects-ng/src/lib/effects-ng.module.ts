@@ -10,7 +10,7 @@ import { EFFECTS_MANAGER, EFFECTS_PROVIDERS } from './tokens';
 import { registerEffectFromProviders } from './provide-effects';
 
 /**
- * @deprecated Please consider using `provideEffectManager` and `provideEffects` functions instead. This module will be
+ * @deprecated Please consider using `provideEffectsManager` and `provideEffects` functions instead. This module will be
  *   deleted in the future.
  */
 @NgModule()
