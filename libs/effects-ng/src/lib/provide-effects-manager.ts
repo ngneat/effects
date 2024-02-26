@@ -1,7 +1,13 @@
 import { EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
-import { Actions } from './actions';
 import { EFFECTS_MANAGER } from './tokens';
-import { initEffects, EffectsConfig, actions } from '@ngneat/effects';
+import { Actions as _Actions } from './actions';
+import {
+  initEffects,
+  EffectsConfig,
+  actions,
+  Actions,
+  EffectsManager,
+} from '@ngneat/effects';
 
 /**
  * Must be called at the root level.
@@ -19,8 +25,16 @@ export function provideEffectsManager(
       useValue: customActionsStream,
     },
     {
-      provide: EFFECTS_MANAGER,
+      provide: _Actions,
+      useExisting: Actions,
+    },
+    {
+      provide: EffectsManager,
       useValue: manager,
+    },
+    {
+      provide: EFFECTS_MANAGER,
+      useExisting: EffectsManager,
     },
   ]);
 }

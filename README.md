@@ -185,10 +185,12 @@ export ROUTES = [
 ]
 ```
 
-The actions can be dispatched by injecting the `Actions` provider:
+The `Actions` class from `@ngneat/effects` has been injectable when using `@ngneat/effects-ng`.
+
+To dispatch an action, simply inject `Actions`:
 
 ```ts
-import { Actions } from '@ngneat/effects-ng';
+import { Actions } from '@ngneat/effects';
 
 @Component(...)
 export class AppComponent {
@@ -206,7 +208,8 @@ export class AppComponent {
 `provideDirectiveEffects()` and `EffectsDirective` serve to register effects on the `component injector` level. This means that effects will live as long as the component where effects are registered lives. Do not forget to call `provideEffectsManager` in the root providers.
 
 ```ts
-import { provideDirectiveEffects, EffectsDirective, Actions } from '@ngneat/effects-ng';
+import { Actions } from "@ngneat/effects";
+import { provideDirectiveEffects, EffectsDirective } from '@ngneat/effects-ng';
 
 @Component({
   ...,

@@ -5,7 +5,6 @@ import {
   makeEnvironmentProviders,
   EnvironmentProviders,
 } from '@angular/core';
-import { EFFECTS_MANAGER } from './tokens';
 import { getEffectPropsMap } from './utils';
 import { Effect, EffectsManager } from '@ngneat/effects';
 import {
@@ -27,7 +26,7 @@ export function provideEffects(
       provide: ENVIRONMENT_INITIALIZER,
       multi: true,
       useValue: () => {
-        const manager = inject(EFFECTS_MANAGER, { optional: true });
+        const manager = inject(EffectsManager, { optional: true });
 
         if (!manager) {
           throw new TypeError(
