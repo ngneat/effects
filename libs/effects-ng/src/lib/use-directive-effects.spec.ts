@@ -60,6 +60,7 @@ describe('provideDirectiveEffects & EffectsDirective', () => {
   beforeEach(() => {
     spy.mockClear();
     spy2.mockClear();
+    spy3.mockClear();
   });
 
   it('should provide effects', () => {
@@ -101,6 +102,8 @@ describe('provideDirectiveEffects & EffectsDirective', () => {
     TestBed.createComponent(componentType);
 
     expect(spy).toHaveBeenCalled();
+    expect(spy2).not.toHaveBeenCalled();
+    expect(spy3).not.toHaveBeenCalled();
   });
 
   it('should subscribe on the same effects only once', () => {
@@ -122,6 +125,7 @@ describe('provideDirectiveEffects & EffectsDirective', () => {
 
     expect(spy).toHaveBeenCalledTimes(2);
     expect(spy2).toHaveBeenCalledTimes(1);
+    expect(spy3).not.toHaveBeenCalled();
   });
 
   it('should unsubscribe only from effects that was registered via provideDirectiveEffects when component is destroyed', () => {
@@ -154,25 +158,28 @@ describe('provideDirectiveEffects & EffectsDirective', () => {
     const fixture3 = TestBed.createComponent(TestComponent);
     const actions = TestBed.inject(Actions);
 
-    actions.dispatch(loadTodos2());
+    actions.dispatch(loadTodos2(), loadTodos3());
 
     expect(spy).toHaveBeenCalledTimes(3);
+    expect(spy2).toHaveBeenCalledTimes(1);
     expect(spy2).toHaveBeenCalledTimes(1);
 
     fixture.destroy();
     fixture2.destroy();
 
-    actions.dispatch(loadTodos(), loadTodos2());
+    actions.dispatch(loadTodos(), loadTodos2(), loadTodos3());
 
     expect(spy).toHaveBeenCalledTimes(4);
     expect(spy2).toHaveBeenCalledTimes(2);
+    expect(spy3).toHaveBeenCalledTimes(2);
 
     fixture3.destroy();
 
-    actions.dispatch(loadTodos(), loadTodos2());
+    actions.dispatch(loadTodos(), loadTodos2(), loadTodos3());
 
     expect(spy).toHaveBeenCalledTimes(4);
     expect(spy2).toHaveBeenCalledTimes(3);
+    expect(spy3).toHaveBeenCalledTimes(2);
   });
 
   it('should properly determine source instances and manage their effects', () => {
