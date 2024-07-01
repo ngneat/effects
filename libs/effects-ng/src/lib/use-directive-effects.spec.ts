@@ -13,13 +13,19 @@ import { provideEffects } from './provide-effects';
 
 const spy = jest.fn();
 const spy2 = jest.fn();
+const spy3 = jest.fn();
 const loadTodos = createAction('[Todos] Load Todos');
 const loadTodos2 = createAction('[Todos] Load Todos 2');
+const loadTodos3 = createAction('[Todos] Load Todos 3');
 
 @Injectable()
 class EffectsOne {
   loadTodos$ = createEffect((actions) =>
     actions.pipe(ofType(loadTodos), tap(spy))
+  );
+
+  loadTodos3$ = createEffect((actions) =>
+    actions.pipe(ofType(loadTodos3), tap(spy3))
   );
 }
 
