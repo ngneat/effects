@@ -42,7 +42,7 @@ export class EffectsDirective implements OnDestroy {
   private readonly manager = inject(EFFECTS_MANAGER, { optional: true });
   private readonly sourceInstancesWithProvidersEffectsTokens = new Map<
     any,
-    ProvidedEffectToken
+    Array<ProvidedEffectToken>
   >();
 
   constructor() {
@@ -67,9 +67,19 @@ export class EffectsDirective implements OnDestroy {
         const sourceInstance = Object.getPrototypeOf(instance);
         const token = generateProvidedEffectToken(provider, key);
 
+        const tokens = this.sourceInstancesWithProvidersEffectsTokens.has(
+          sourceInstance
+        )
+          ? (this.sourceInstancesWithProvidersEffectsTokens.get(
+              sourceInstance
+            ) as Array<ProvidedEffectToken>)
+          : [];
+
+        tokens.push(token);
+
         this.sourceInstancesWithProvidersEffectsTokens.set(
           Object.getPrototypeOf(instance),
-          token
+          tokens
         );
 
         if (isEffectProvided(sourceInstance, token)) {
@@ -94,13 +104,15 @@ export class EffectsDirective implements OnDestroy {
   private unregisterEffect(): void {
     const effects = [
       ...this.sourceInstancesWithProvidersEffectsTokens.entries(),
-    ].reduce<Effect[]>((effects, [sourceInstance, token]) => {
-      const effect = getProvidedEffect(sourceInstance, token);
+    ].reduce<Effect[]>((effects, [sourceInstance, tokens]) => {
+      for (const token of tokens) {
+        const effect = getProvidedEffect(sourceInstance, token);
 
-      decreaseProvidedEffectSources(sourceInstance, token);
+        decreaseProvidedEffectSources(sourceInstance, token);
 
-      if (effect && !isEffectProvided(sourceInstance, token)) {
-        effects.push(effect);
+        if (effect && !isEffectProvided(sourceInstance, token)) {
+          effects.push(effect);
+        }
       }
 
       return effects;
