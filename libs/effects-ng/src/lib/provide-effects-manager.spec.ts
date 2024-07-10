@@ -1,11 +1,17 @@
 import { Component, Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { createAction, createEffect } from '@ngneat/effects';
+import {
+  Actions,
+  EffectsManager,
+  createAction,
+  createEffect,
+} from '@ngneat/effects';
 import { tap, map } from 'rxjs';
 import { ofType } from 'ts-action-operators';
-import { Actions } from './actions';
 import { provideEffects } from './provide-effects';
 import { provideEffectsManager } from './provide-effects-manager';
+import { EFFECTS_MANAGER } from './tokens';
+import { Actions as _Actions } from './actions';
 
 const spy = jest.fn();
 
@@ -68,5 +74,21 @@ describe('provideEffectsManager', () => {
 
     expect((component as any).actions).toBeInstanceOf(CustomActions);
     expect(dispatchSpy).toHaveBeenCalled();
+  });
+
+  it('should provide the same instance for different tokens of the same object', () => {
+    TestBed.configureTestingModule({
+      providers: [
+        TodoComponent,
+        provideEffects(EffectsOne),
+        provideEffectsManager(),
+      ],
+    });
+    const actions = TestBed.inject(Actions);
+    const _actions = TestBed.inject(_Actions);
+    expect(actions === _actions).toBe(true);
+    const manager = TestBed.inject(EffectsManager);
+    const _manager = TestBed.inject(EFFECTS_MANAGER);
+    expect(manager === _manager).toBe(true);
   });
 });

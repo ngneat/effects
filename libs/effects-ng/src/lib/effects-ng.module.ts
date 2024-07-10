@@ -1,13 +1,14 @@
 import { Inject, ModuleWithProviders, NgModule, Type } from '@angular/core';
 import {
+  Actions,
   actions,
   EffectsConfig,
   EffectsManager,
   initEffects,
 } from '@ngneat/effects';
-import { Actions } from './actions';
 import { EFFECTS_MANAGER, EFFECTS_PROVIDERS } from './tokens';
 import { registerEffectFromProviders } from './provide-effects';
+import { Actions as _Actions } from './actions';
 
 /**
  * @deprecated Please consider using `provideEffectsManager` and `provideEffects` functions instead. This module will be
@@ -34,8 +35,16 @@ export class EffectsNgModule {
           useValue: config?.customActionsStream || actions,
         },
         {
-          provide: EFFECTS_MANAGER,
+          provide: _Actions,
+          useExisting: Actions,
+        },
+        {
+          provide: EffectsManager,
           useFactory: () => initEffects(config),
+        },
+        {
+          provide: EFFECTS_MANAGER,
+          useExisting: EffectsManager,
         },
         ...providers,
         {

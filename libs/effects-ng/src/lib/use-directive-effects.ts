@@ -6,9 +6,8 @@ import {
   Provider,
   InjectionToken,
 } from '@angular/core';
-import { EFFECTS_MANAGER } from './tokens';
 import { getEffectPropsMap } from './utils';
-import { Effect } from '@ngneat/effects';
+import { Effect, EffectsManager } from '@ngneat/effects';
 import {
   isEffectProvided,
   increaseProvidedEffectSources,
@@ -39,7 +38,7 @@ export class EffectsDirective implements OnDestroy {
     self: true,
     optional: true,
   });
-  private readonly manager = inject(EFFECTS_MANAGER, { optional: true });
+  private readonly manager = inject(EffectsManager, { optional: true });
   private readonly sourceInstancesWithProvidersEffectsTokens = new Map<
     any,
     Array<ProvidedEffectToken>
